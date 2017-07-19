@@ -1,4 +1,5 @@
 const NODE_ENV = process.env.NODE_ENV || 'development'
+const API_HOSTNAME = NODE_ENV === 'development' ? 'api.dotatv.com' : 'api.dotatv.com'
 
 module.exports = {
   /** The environment to use when building the project */
@@ -22,6 +23,8 @@ module.exports = {
   /** Whether to enable verbose logging */
   verbose: false,
   /** The list of modules to bundle separately from the core application code */
+  apiHostname: `http://${API_HOSTNAME}`,
+  dotaImageCdn: 'http://cdn.dota2.com/apps/dota2/images',
   vendors: [
     'react',
     'react-dom',

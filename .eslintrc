@@ -2,12 +2,16 @@
   "parser": "babel-eslint",
   "extends": [
     "standard",
-    "standard-react"
+    "standard-react",
+    "airbnb",
+    "plugin:flowtype/recommended"
   ],
   "plugins": [
     "babel",
     "react",
-    "promise"
+    "promise",
+    "flowtype",
+    "compat"
   ],
   "env": {
     "browser" : true
@@ -23,6 +27,9 @@
     "jsx-quotes"           : [2, "prefer-single"],
     "max-len"              : [2, 120, 2],
     "object-curly-spacing" : [2, "always"],
-    "comma-dangle"         : "off"
+    "comma-dangle"         : "off",
+    "semi": [2, "never"],
+    "no-unexpected-multiline": 2,
+    "compat/compat": 2
   }
 }
