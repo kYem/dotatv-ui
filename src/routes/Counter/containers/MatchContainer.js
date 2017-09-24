@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import Counter from '../components/Counter'
+import Players from '../components/Players'
 import { getLiveMatches, getLiveMatchDetails} from '../../../actions/api'
 
 /*  This is a container component. Notice it does not contain any JSX,
@@ -12,13 +12,11 @@ import { getLiveMatches, getLiveMatchDetails} from '../../../actions/api'
     implementing our wrapper around increment; the component doesn't care   */
 
 const mapDispatchToProps = {
-  getLiveMatches,
   getLiveMatchDetails,
 }
 
 const mapStateToProps = state => ({
-  matches: state.counter.matches,
-  live: state.counter.live
+  matches: state.counter.matches
 })
 
 /*  Note: mapStateToProps is where you should use `reselect` to create selectors, ie:
@@ -35,4 +33,4 @@ const mapStateToProps = state => ({
     Selectors are composable. They can be used as input to other selectors.
     https://github.com/reactjs/reselect    */
 
-export default connect(mapStateToProps, mapDispatchToProps)(Counter)
+export default connect(mapStateToProps, mapDispatchToProps)(Players)

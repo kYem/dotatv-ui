@@ -4,9 +4,9 @@ import Players from './Players'
 
 class Counter extends React.Component {
   static propTypes = {
-    counter: PropTypes.number.isRequired,
-    matches: PropTypes.array.isRequired,
+    live: PropTypes.object,
     getLiveMatches: PropTypes.func.isRequired,
+    getLiveMatchDetails: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
@@ -14,13 +14,19 @@ class Counter extends React.Component {
   }
 
   render() {
+
+    let live = null
+    if (this.props.live) {
+      live = <Players getLiveMatchDetails={this.props.getLiveMatchDetails} {...this.props.live} />
+    } else {
+      setTimeout(this.props.getLiveMatches(), 2000)
+
+    }
     return (
       <div style={{ margin: '0 auto' }} >
         <div>
           <h5>Live Matches</h5>
-          {this.props.matches.map((match) => {
-            return <Players key={match.lobby_id} {...match} />
-          })}
+          {live}
         </div>
       </div>
     )

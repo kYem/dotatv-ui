@@ -20,6 +20,8 @@ class Player extends React.Component {
     denies_count: PropTypes.number,
     lh_count: PropTypes.number,
     gold: PropTypes.number,
+    x: PropTypes.number,
+    y: PropTypes.number
   }
   static defaultProps = {
     kill_count: 0,
@@ -29,6 +31,8 @@ class Player extends React.Component {
     lh_count: 0,
     gold: 0,
     level: 0,
+    x: 0,
+    y: 0
   };
 
   // style = {

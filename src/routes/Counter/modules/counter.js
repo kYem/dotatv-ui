@@ -2,38 +2,18 @@
 // Constants
 // ------------------------------------
 // @flow
-export const COUNTER_INCREMENT = 'COUNTER_INCREMENT'
-export const LIVE_MATCHES = 'LIVE_MATCHES'
+import { LIVE_MATCH_DETAILS, LIVE_MATCHES } from '../../../actions/api'
+
 const config = require('../../../../project.config')
 
 // Test data
 const proPlayers = require('../../../data/pro-players.json')
 const heroes = require('../../../data/heroes.json')
-const dummyData = require('../../../data/game-list.json')
-const live = require('../../../data/real-time.json')
 
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function increment(value: number = 1) {
-  return {
-    type    : COUNTER_INCREMENT,
-    payload : value
-  }
-}
-
-export function getLiveMatches(partner: number = 0) {
-  return (dispatch, getState) => {
-    dispatch({ type: LIVE_MATCHES, payload: dummyData.game_list })
-  }
-}
-
-export function getLiveMatch(serverSteamId: string) {
-  return live.match.server_steam_id === serverSteamId ? live : null;
-}
-
 export function mapAccountToPlayer(playerObject) {
-
   const heroData = heroes.heroes.find(hero => hero.id === playerObject.hero_id)
   const heroName = heroData ? heroData.name.replace('npc_dota_hero_', '') : ''
 
@@ -47,32 +27,8 @@ export function mapAccountToPlayer(playerObject) {
   )
 }
 
-export function matchToPlayers(match) {
-
-  const liveData = getLiveMatch(match.server_steam_id)
-  let livePlayersData
-
-  if (liveData) {
-    const teams = liveData.teams;
-    livePlayersData = teams[0].players.concat(teams[1].players)
-  }
-
-  match.players.map(player => {
-
-    if (livePlayersData) {
-      const data = livePlayersData.find(livePlayer => livePlayer.accountid === player.account_id)
-      if (data) {
-        player = Object.assign(player, data)
-      }
-    }
-    return mapAccountToPlayer(player)
-  })
-
-
-  if (liveData) {
-    
-  }
-
+const matchToPlayers = (match) => {
+  match.players.map(player => mapAccountToPlayer(player))
   return match
 }
 
@@ -80,10 +36,34 @@ export function matchToPlayers(match) {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [COUNTER_INCREMENT]    : (state, action) => state.counter + action.payload,
-  [LIVE_MATCHES] : (state, action) => {
-    action.payload.map(match => matchToPlayers(match))
-    return Object.assign({}, state, { matches: action.payload })
+  LIVE_MATCH_DETAILS : (state, action) => {
+    const oldLive = Object.assign({}, state.live, { ...action.payload.match })
+
+    if (!action.payload.teams) {
+      return state
+    }
+
+    const teams = Object.assign({}, action.payload.teams)
+    const livePlayersData = teams[0].players.concat(teams[1].players)
+
+    oldLive.players.map((player) => {
+      const data = livePlayersData.find(livePlayer => livePlayer.accountid === player.account_id)
+      return data ? Object.assign(player, data) : player
+    })
+
+    oldLive.updated = Date.now()
+    return Object.assign({}, state, { live: oldLive })
+  },
+  LIVE_MATCHES : (state, action) => {
+    const gameMatches = action.payload.game_list
+    const liveMatch = matchToPlayers(gameMatches[1])
+    return Object.assign({}, state, {
+      matches: [liveMatch],
+      live: Object.assign({}, liveMatch)
+    })
+  },
+  MATCH_FINISHED : (state, action) => {
+    return Object.assign({}, state, { matches: [], live: null })
   }
 }
 
@@ -92,7 +72,8 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
   counter: 0,
-  matches: []
+  matches: [],
+  live: null,
 }
 export default function counterReducer(state: { counter: number, matches: [] } = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
