@@ -2,58 +2,46 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './LiveMatch.scss'
 import Player from '../../routes/Counter/components/Player'
+import PlayerTable from './PlayerTable'
 
 class LiveMatch extends React.Component {
 
   static propTypes = {
-    players: PropTypes.array.isRequired,
-    average_mmr: PropTypes.number.isRequired,
-    server_steam_id: PropTypes.string.isRequired,
-    radiant_score: PropTypes.number.isRequired,
-    dire_score: PropTypes.number.isRequired,
-    game_time: PropTypes.number.isRequired,
+    teams: PropTypes.arrayOf(PropTypes.shape({
+      players: PropTypes.array.isRequired,
+      team_name: PropTypes.string.isRequired,
+      team_logo: PropTypes.string.isRequired,
+      team_id: PropTypes.number.isRequired,
+      score: PropTypes.number.isRequired,
+    })).isRequired,
+    match: PropTypes.shape({
+      server_steam_id:  PropTypes.string.isRequired,
+      matchid:  PropTypes.string.isRequired,
+      timestamp: PropTypes.number.isRequired,
+      game_time: PropTypes.number.isRequired,
+      game_mode: PropTypes.number.isRequired,
+      league_id: PropTypes.number.isRequired
+    }).isRequired
   }
 
   render() {
-
-    let players = null
-    if (this.props.players) {
-      players = this.props.players.map(player => (<Player key={player.account_id} {...player} />))
-    }
+    const radiant = this.props.teams[0].players
+    const dire = this.props.teams[1].players
 
     const minutes = Math.floor(this.props.game_time / 60).toFixed(0)
     const seconds = (this.props.game_time - (minutes * 60)).toFixed(0)
-    const formattedSeconds = seconds < 10 ? '0' + seconds : seconds
-    const formattedMinutes = minutes < 10 ? '0' + minutes : minutes
+    const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes
     const lastUpdated = new Date(this.props.updated || '-')
 
     return (
       <div>
-        <h6>Average mmr {this.props.average_mmr} Server Id: {this.props.server_steam_id}</h6>
-        <div>
-          <div>Time: {formattedMinutes}:{formattedSeconds} - <span>Last updated {lastUpdated.toLocaleString()}</span></div>
-        </div>
+        <h6>Average mmr {this.props.average_mmr}</h6>
+        <div>Time: {formattedMinutes}:{formattedSeconds} - <span>Last updated {lastUpdated.toLocaleString()}</span></div>
         <hr />
-        <h3>  Radiant <span>{this.props.radiant_score}</span> : <span>{this.props.dire_score}</span> Dire</h3>
-        <table className='ui table'>
-          <thead>
-          <tr>
-            <th className='two wide center aligned'>Hero</th>
-            <th className='four wide center aligned'>Player</th>
-            <th className='four wide center aligned'>Pro</th>
-            <th className='one wide center aligned'>Level</th>
-            <th className='one wide center aligned'>K/D/A</th>
-            <th className='one wide center aligned'>LH/DN</th>
-            <th className='one wide center aligned'>Gold</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr />
-          </tbody>
-          <tbody>
-          {players}
-          </tbody>
-        </table>
+        <h3>Radiant <span>{this.props.teams[0].score}</span> : <span>{this.props.teams[1].score}</span> Dire</h3>
+        <PlayerTable players={radiant} />
+        <PlayerTable players={dire} />
       </div>
     )
   }

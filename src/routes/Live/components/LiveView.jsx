@@ -17,7 +17,7 @@ export class LiveView extends React.Component {
 
   render() {
     let match = null
-    if (this.props.liveMatch) {
+    if (this.props.liveMatch.teams) {
       match = <Match {...this.props.liveMatch} />
     }
 

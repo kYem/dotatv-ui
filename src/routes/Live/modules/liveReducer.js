@@ -7,7 +7,7 @@ import { LIVE_MATCH_DETAILS, LIVE_MATCHES } from '../../../actions/api'
 // ------------------------------------
 const ACTION_HANDLERS = {
   LIVE_MATCH_DETAILS : (state, action) => {
-    const oldLive = Object.assign({}, state.live, { ...action.payload.match })
+    const oldLive = Object.assign({}, state.live, { ...action.payload })
     oldLive.updated = Date.now()
     return Object.assign({}, state, { live: oldLive })
   },
