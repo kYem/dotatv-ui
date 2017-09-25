@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router'
 import PropTypes from 'prop-types'
 import Player from './Player'
 
@@ -31,7 +32,6 @@ class Players extends React.Component {
   }
 
   render() {
-
     let players = null
     if (this.props.players) {
       players = this.props.players.map(player => (<Player key={player.account_id} {...player} />))
@@ -39,13 +39,13 @@ class Players extends React.Component {
 
     const minutes = Math.floor(this.props.game_time / 60).toFixed(0)
     const seconds = (this.props.game_time - (minutes * 60)).toFixed(0)
-    const formattedSeconds = seconds < 10 ? '0' + seconds : seconds
-    const formattedMinutes = minutes < 10 ? '0' + minutes : minutes
+    const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes
     const lastUpdated = new Date(this.props.updated)
 
     return (
       <div>
-        <h6>Average mmr {this.props.average_mmr} Server Id: {this.props.server_steam_id}</h6>
+        <h6>Average mmr {this.props.average_mmr} Server Id:            <Link to={`/live/${this.props.server_steam_id}`} activeClassName='page-layout__nav-item--active'>Live Match</Link></h6>
         <div>
           <div>Time: {formattedMinutes}:{formattedSeconds} - <span>Last updated {lastUpdated.toLocaleString()}</span></div>
         </div>

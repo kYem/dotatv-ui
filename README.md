@@ -74,10 +74,10 @@ The project structure presented in this boilerplate is **fractal**, where functi
 ├── build                    # All build-related code
 ├── public                   # Static public assets (not imported anywhere in source code)
 ├── server                   # Express application that provides webpack middleware
-│   └── main.js              # Server application entry point
+│   └── main.jsx              # Server application entry point
 ├── src                      # Application source code
 │   ├── index.html           # Main HTML page container for app
-│   ├── main.js              # Application bootstrap and rendering
+│   ├── main.jsx              # Application bootstrap and rendering
 │   ├── normalize.js         # Browser normalization and polyfills
 │   ├── components           # Global Reusable Components
 │   ├── containers           # Global Reusable Container Components

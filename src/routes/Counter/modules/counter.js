@@ -1,6 +1,3 @@
-// ------------------------------------
-// Constants
-// ------------------------------------
 // @flow
 import { LIVE_MATCH_DETAILS, LIVE_MATCHES } from '../../../actions/api'
 
