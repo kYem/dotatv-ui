@@ -50,7 +50,6 @@ class Player extends React.Component {
             href={`https://www.dotabuff.com/players/${this.props.account_id}`}
             target='_blank'
           >{this.props.personaname}</a>
-          <p>{this.props.hero_name}</p>
         </td>
         <td className='center aligned'>
           <a href='/GH-GOD'>{this.props.name}</a>

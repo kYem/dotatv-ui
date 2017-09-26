@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import './LiveMatch.scss'
-import Player from '../../routes/Counter/components/Player'
 import PlayerTable from './PlayerTable'
 
 class LiveMatch extends React.Component {
@@ -40,7 +39,10 @@ class LiveMatch extends React.Component {
         <div>Time: {formattedMinutes}:{formattedSeconds} - <span>Last updated {lastUpdated.toLocaleString()}</span></div>
         <hr />
         <h3>Radiant <span>{this.props.teams[0].score}</span> : <span>{this.props.teams[1].score}</span> Dire</h3>
+        <hr/>
+        <h6>Radiant</h6>
         <PlayerTable players={radiant} />
+        <h6>Dire</h6>
         <PlayerTable players={dire} />
       </div>
     )
