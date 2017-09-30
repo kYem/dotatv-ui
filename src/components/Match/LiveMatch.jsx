@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './LiveMatch.scss'
 import PlayerTable from './PlayerTable'
+import { gameTime } from '../../actions/matchProcessing'
 
 class LiveMatch extends React.Component {
 
@@ -26,20 +27,15 @@ class LiveMatch extends React.Component {
   render() {
     const radiant = this.props.teams[0].players
     const dire = this.props.teams[1].players
-
-    const minutes = Math.floor(this.props.game_time / 60).toFixed(0)
-    const seconds = (this.props.game_time - (minutes * 60)).toFixed(0)
-    const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds
-    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes
-    const lastUpdated = new Date(this.props.updated || '-')
+    const lastUpdated = this.props.updated ? new Date(this.props.updated) : '-'
 
     return (
       <div>
         <h6>Average mmr {this.props.average_mmr}</h6>
-        <div>Time: {formattedMinutes}:{formattedSeconds} - <span>Last updated {lastUpdated.toLocaleString()}</span></div>
+        <div>Time: {gameTime(this.props.match.game_time)} - <span>Last updated {lastUpdated.toLocaleString()}</span></div>
         <hr />
-        <h3>Radiant <span>{this.props.teams[0].score}</span> : <span>{this.props.teams[1].score}</span> Dire</h3>
-        <hr/>
+        <h3>Radiant <span>{radiant.score}</span> : <span>{dire.score}</span> Dire</h3>
+        <hr />
         <h6>Radiant</h6>
         <PlayerTable players={radiant} />
         <h6>Dire</h6>
