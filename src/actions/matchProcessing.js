@@ -19,7 +19,7 @@ export function mapAccountToPlayer(playerObject) {
 }
 
 export function matchToPlayers(match) {
-  if (!match) {
+  if (!match || !match.players) {
     return match
   }
   match.players.map(player => mapAccountToPlayer(player))

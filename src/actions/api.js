@@ -6,7 +6,6 @@ export const LIVE_MATCH_DETAILS = 'LIVE_MATCH_DETAILS'
 export const LIVE_MATCHES = 'LIVE_MATCHES'
 export const MATCH_FINISHED = 'MATCH_FINISHED'
 
-const live = require('../data/real-time.json')
 const config = require('../../project.config')
 
 const DEFAULT_OPTIONS = {
