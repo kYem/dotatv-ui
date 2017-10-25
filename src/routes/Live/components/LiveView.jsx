@@ -26,10 +26,7 @@ export class LiveView extends React.Component {
 
     return (
       <div style={{ margin: '0 auto' }} >
-        <div>
-          <h5>Live Matches!</h5>
           {this.props.liveMatch === undefined ? 'Loading ...' : match || <h6>match data not available</h6>}
-        </div>
       </div>
     )
   }

@@ -32,21 +32,25 @@ class LiveMatch extends React.Component {
   }
 
   render() {
-    const radiant = this.props.teams[0].players
-    const dire = this.props.teams[1].players
+    const radiant = this.props.teams[0]
+    const dire = this.props.teams[1]
     const lastUpdated = this.props.updated ? new Date(this.props.updated) : '-'
 
     return (
-      <div>
-        <h6>Average mmr {this.props.average_mmr}</h6>
-        <div>Game time: {gameTime(this.props.match.game_time)} <span className='updated timestamp'>Last updated {lastUpdated.toLocaleString()}</span></div>
-        <hr />
-        <h3>Radiant <span>{radiant.score}</span> : <span>{dire.score}</span> Dire</h3>
+      <div className='liveMatch'>
+        <header>
+          <h3>Radiant <span>{radiant.score}</span> : <span>{dire.score}</span> Dire</h3>
+          <div>
+            <span>Game time: {gameTime(this.props.match.game_time)}</span>
+            {this.props.average_mmr && <span>Average mmr {this.props.average_mmr}</span>}
+            <span className='updated timestamp'>Last updated {lastUpdated.toLocaleString()}</span>
+          </div>
+        </header>
         <hr />
         <h6>Radiant</h6>
-        <PlayerTable players={radiant} />
+        <PlayerTable players={radiant.players} />
         <h6>Dire</h6>
-        <PlayerTable players={dire} />
+        <PlayerTable players={dire.players} />
       </div>
     )
   }
