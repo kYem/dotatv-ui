@@ -7,6 +7,7 @@ import { gameTime } from '../../actions/matchProcessing'
 class LiveMatch extends React.Component {
 
   static propTypes = {
+    getLiveMatchDetails: PropTypes.func.isRequired,
     teams: PropTypes.arrayOf(PropTypes.shape({
       players: PropTypes.array.isRequired,
       team_name: PropTypes.string.isRequired,
@@ -24,6 +25,12 @@ class LiveMatch extends React.Component {
     }).isRequired
   }
 
+  componentDidMount() {
+    this.refresh = setInterval(() => {
+      this.props.getLiveMatchDetails(this.props.match.server_steam_id)
+    }, 2000)
+  }
+
   render() {
     const radiant = this.props.teams[0].players
     const dire = this.props.teams[1].players
@@ -32,7 +39,7 @@ class LiveMatch extends React.Component {
     return (
       <div>
         <h6>Average mmr {this.props.average_mmr}</h6>
-        <div>Time: {gameTime(this.props.match.game_time)} - <span>Last updated {lastUpdated.toLocaleString()}</span></div>
+        <div>Game time: {gameTime(this.props.match.game_time)} <span className='updated timestamp'>Last updated {lastUpdated.toLocaleString()}</span></div>
         <hr />
         <h3>Radiant <span>{radiant.score}</span> : <span>{dire.score}</span> Dire</h3>
         <hr />
@@ -42,6 +49,10 @@ class LiveMatch extends React.Component {
         <PlayerTable players={dire} />
       </div>
     )
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.refresh)
   }
 }
 

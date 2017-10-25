@@ -34,7 +34,7 @@ class Players extends React.Component {
   render() {
     let players = null
     if (this.props.players) {
-      players = this.props.players.map(player => (<Player key={player.account_id} {...player} />))
+      players = this.props.players.map(player => (<Player key={player.accountid} {...player} />))
     }
 
     const minutes = Math.floor(this.props.game_time / 60).toFixed(0)
@@ -54,13 +54,13 @@ class Players extends React.Component {
         <table className='ui table'>
           <thead>
             <tr>
-              <th className='two wide center aligned'>Hero</th>
-              <th className='four wide center aligned'>Player</th>
-              <th className='four wide center aligned'>Pro</th>
-              <th className='one wide center aligned'>Level</th>
-              <th className='one wide center aligned'>K/D/A</th>
-              <th className='one wide center aligned'>LH/DN</th>
-              <th className='one wide center aligned'>Gold</th>
+              <th>Hero</th>
+              <th>Player</th>
+              <th>Pro</th>
+              <th>Level</th>
+              <th>K/D/A</th>
+              <th>LH/DN</th>
+              <th>Gold</th>
             </tr>
           </thead>
           <tbody>

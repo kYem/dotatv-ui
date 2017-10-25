@@ -2,13 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import './LiveView.scss'
-import Match from '../../../components/Match/LiveMatch'
+import LiveMatch from '../../../components/Match/LiveMatch'
 import { getLiveMatchDetails } from '../../../actions/api'
 
 export class LiveView extends React.Component {
 
   static propTypes = {
     getLiveMatchDetails: PropTypes.func.isRequired,
+    liveMatch: PropTypes.shape({
+      teams:  PropTypes.array,
+    })
   }
 
   componentDidMount() {
@@ -18,7 +21,7 @@ export class LiveView extends React.Component {
   render() {
     let match = null
     if (this.props.liveMatch && this.props.liveMatch.teams) {
-      match = <Match {...this.props.liveMatch} />
+      match = <LiveMatch getLiveMatchDetails={this.props.getLiveMatchDetails} {...this.props.liveMatch} />
     }
 
     return (

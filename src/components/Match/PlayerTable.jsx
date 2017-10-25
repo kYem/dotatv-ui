@@ -4,8 +4,8 @@ import './PlayerTable.scss'
 
 export default ({ players }) => (
 
-  <table className='ui table player-match-table'>
-    <thead>
+  <table className='ui table player-match-table table-striped'>
+    <thead className="thead-inverse">
       <tr>
         <th>Hero</th>
         <th>Player</th>

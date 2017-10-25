@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 class Player extends React.Component {
   static propTypes = {
-    account_id: PropTypes.number.isRequired,
+    accountid: PropTypes.number.isRequired,
     avatar: PropTypes.string,
     avatarfull: PropTypes.string,
     avatarmedium: PropTypes.string,
@@ -12,7 +12,6 @@ class Player extends React.Component {
     hero_name: PropTypes.string.isRequired,
     name: PropTypes.string,
     personaname: PropTypes.string,
-    steamid: PropTypes.string,
     level: PropTypes.number,
     kill_count: PropTypes.number,
     death_count: PropTypes.number,
