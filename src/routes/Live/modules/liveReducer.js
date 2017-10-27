@@ -5,16 +5,16 @@ const heroes = require('../../../data/heroes.json')
 const config = require('../../../../project.config')
 
 export function mapAccountToPlayer(playerObject) {
-  const heroData = heroes.heroes.find(hero => hero.id === playerObject.heroid)
+  const heroData = heroes.heroes.find(hero => hero.id === playerObject.hero_id)
   const heroName = heroData ? heroData.name.replace('npc_dota_hero_', '') : ''
 
   return Object.assign(
     playerObject,
-    proPlayers.find(player => player.account_id === playerObject.accountid),
+    proPlayers.find(player => player.account_id === playerObject.account_id),
     {
       hero_name: heroName,
       hero_image: heroData ? `${config.dotaImageCdn}/heroes/${heroName}_sb.png` : '',
-      hero_id: playerObject.heroid
+      hero_id: playerObject.hero_id
     }
   )
 }

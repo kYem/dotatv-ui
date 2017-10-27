@@ -34,7 +34,7 @@ class Players extends React.Component {
   render() {
     let players = null
     if (this.props.players) {
-      players = this.props.players.map(player => (<Player key={player.accountid} {...player} />))
+      players = this.props.players.map(player => (<Player key={player.account_id} {...player} />))
     }
 
     const minutes = Math.floor(this.props.game_time / 60).toFixed(0)
@@ -45,7 +45,7 @@ class Players extends React.Component {
 
     return (
       <div>
-        <h6>Average mmr {this.props.average_mmr} Server Id:            <Link to={`/live/${this.props.server_steam_id}`} activeClassName='page-layout__nav-item--active'>Live Match</Link></h6>
+        <h6>Average mmr {this.props.average_mmr} Server Id: <Link to={`/live/${this.props.server_steam_id}`} activeClassName='page-layout__nav-item--active'>Live Match</Link></h6>
         <div>
           <div>Time: {formattedMinutes}:{formattedSeconds} - <span>Last updated {lastUpdated.toLocaleString()}</span></div>
         </div>

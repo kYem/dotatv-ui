@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 class PlayerRow extends React.Component {
   static propTypes = {
-    accountid: PropTypes.number.isRequired,
+    account_id: PropTypes.number.isRequired,
     avatar: PropTypes.string,
     avatarfull: PropTypes.string,
     avatarmedium: PropTypes.string,
@@ -12,6 +12,7 @@ class PlayerRow extends React.Component {
     hero_name: PropTypes.string.isRequired,
     name: PropTypes.string,
     personaname: PropTypes.string,
+    team_tag: PropTypes.string.optional,
     level: PropTypes.number,
     kill_count: PropTypes.number,
     death_count: PropTypes.number,
@@ -41,9 +42,11 @@ class PlayerRow extends React.Component {
           <img src={this.props.hero_image} alt={this.props.hero_name} className='rounded image' />
         </td>
         <td>
-          <a href={`https://www.dotabuff.com/players/${this.props.accountid}`}
+          {this.props.team_tag}
+          <a
+            href={`https://www.dotabuff.com/players/${this.props.account_id}`}
             target='_blank'
-          >{this.props.personaname || this.props.name}</a>
+          > {this.props.name}</a>
         </td>
         <td>{this.props.level}</td>
         <td>{this.props.kill_count}/{this.props.death_count}/{this.props.assists_count} </td>

@@ -19,7 +19,7 @@ export default ({ players }) => (
       <tr />
     </tbody>
     <tbody>
-      {players.map(player => (<PlayerRow key={player.accountid} {...player} />))}
+      {players.map(player => (<PlayerRow key={player.account_id} {...player} />))}
     </tbody>
   </table>
 

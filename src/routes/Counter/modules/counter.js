@@ -44,7 +44,7 @@ const ACTION_HANDLERS = {
     const livePlayersData = teams[0].players.concat(teams[1].players)
 
     oldLive.players.map((player) => {
-      const data = livePlayersData.find(livePlayer => livePlayer.accountid === player.account_id)
+      const data = livePlayersData.find(livePlayer => livePlayer.account_id === player.account_id)
       return data ? Object.assign(player, data) : player
     })
 
