@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import LiveValue from './LiveValue'
 
 class PlayerRow extends React.Component {
   static propTypes = {
@@ -12,7 +13,7 @@ class PlayerRow extends React.Component {
     hero_name: PropTypes.string.isRequired,
     name: PropTypes.string,
     personaname: PropTypes.string,
-    team_tag: PropTypes.string.optional,
+    team_tag: PropTypes.string,
     level: PropTypes.number,
     kill_count: PropTypes.number,
     death_count: PropTypes.number,
@@ -49,9 +50,12 @@ class PlayerRow extends React.Component {
           > {this.props.name}</a>
         </td>
         <td>{this.props.level}</td>
-        <td>{this.props.kill_count}/{this.props.death_count}/{this.props.assists_count} </td>
-        <td>{this.props.lh_count}/{this.props.denies_count}</td>
-        <td>{this.props.gold}</td>
+        <td>
+          <LiveValue value={this.props.kill_count} />/<LiveValue value={this.props.death_count} positiveClass={'down'} negativeClass={'up'} />/
+          <LiveValue value={this.props.assists_count} />
+        </td>
+        <td><LiveValue value={this.props.lh_count} />/{this.props.denies_count}</td>
+        <td><LiveValue includeSymbol={true} value={this.props.gold} /></td>
       </tr>
     )
   }

@@ -1,0 +1,42 @@
+$green: #5cb85c;
+$red: #931d28;
+
+.stats-count {
+  &.up {
+    color: $green;
+    animation: highlight 2s;
+    .change {
+      display: inline-block;
+      border-bottom: 8px solid $green;
+    }
+  }
+  &.down {
+    animation: highlight 2s;
+    color: $red;
+    .change {
+      display: inline-block;
+      border-top: 8px solid $red;
+    }
+  }
+
+  .change {
+    display: none;
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    margin-right: 2px;
+  }
+
+  @keyframes highlight {
+    0% {
+      background: #040171
+    }
+    100% {
+      background: none;
+    }
+  }
+}
+
+
