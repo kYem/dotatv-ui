@@ -2,4 +2,15 @@
   th:nth-child(2) {
     width : 25%;
   }
+
+  th:last-child {
+    text-align: right;
+  }
+
+  tr {
+    td:last-child {
+      text-align: right;
+      width: 12%;
+    }
+  }
 }
