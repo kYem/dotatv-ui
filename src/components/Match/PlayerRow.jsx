@@ -55,7 +55,7 @@ class PlayerRow extends React.Component {
           <LiveValue value={this.props.assists_count} />
         </td>
         <td><LiveValue value={this.props.lh_count} />/{this.props.denies_count}</td>
-        <td><LiveValue includeSymbol={true} value={this.props.gold} /></td>
+        <td><LiveValue includeSymbol={true} highlightClass={''} value={this.props.gold} /></td>
       </tr>
     )
   }

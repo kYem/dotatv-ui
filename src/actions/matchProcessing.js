@@ -13,7 +13,8 @@ export function mapAccountToPlayer(playerObject) {
     proPlayers.find(player => player.account_id === playerObject.account_id),
     {
       hero_name: heroName,
-      hero_image: heroData ? `${config.dotaImageCdn}/heroes/${heroName}_sb.png` : ''
+      hero_image: heroData ? `${config.dotaImageCdn}/heroes/${heroName}_sb.png` : '',
+      hero_id: playerObject.hero_id
     }
   )
 }

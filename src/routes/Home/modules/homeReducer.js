@@ -1,14 +1,28 @@
 import { LIVE_MATCH_DETAILS, LIVE_MATCHES } from '../../../actions/api'
-import { matchToPlayers } from '../../../actions/matchProcessing'
+import {mapAccountToPlayer, matchToPlayers} from '../../../actions/matchProcessing'
 
 const ACTION_HANDLERS = {
   LIVE_MATCHES : (state, action) => {
     const gameMatches = action.payload.game_list
-    const liveMatches = gameMatches.map(match => matchToPlayers(match))
+    let liveMatches = [];
+    if (gameMatches) {
+      liveMatches = gameMatches.map(match => matchToPlayers(match))
+    }
     return Object.assign({}, state, {
       matches: liveMatches,
     })
   },
+  LIVE_MATCH_DETAILS : (state, action) => {
+    action.payload.teams.forEach((team) => {
+      team.players.map(player => mapAccountToPlayer(player))
+    })
+    const oldLive = Object.assign({}, state.live, { ...action.payload })
+    oldLive.updated = Date.now()
+    return Object.assign({}, state, { live: oldLive })
+  },
+  MATCH_FINISHED : (state, action) => {
+    return Object.assign({}, state, { matches: [], live: null })
+  }
 }
 
 const initialState = {

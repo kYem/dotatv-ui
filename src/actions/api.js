@@ -43,7 +43,6 @@ export function getLiveMatchDetails(serverSteamId) {
         response.json().then(json => {
 
           const gameCompleted = !json.match || json.buildings[17].destroyed || json.buildings[35].destroyed
-          || json.match.server_steam_id === '90110277422340097'
           const type = gameCompleted ? MATCH_FINISHED : LIVE_MATCH_DETAILS
           // If we still have match, update details otherwise get new live matches
           return dispatch({ type, payload: json })

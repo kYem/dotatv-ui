@@ -2,13 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import connect from 'react-redux/es/connect/connect'
 import './HomeView.scss'
-import { getLiveMatches } from '../../../actions/api'
+import { getLiveMatches, getLiveMatchDetails } from '../../../actions/api'
 import TopLiveMatches from '../../../components/Match/TopLiveMatches'
+import LiveMatch from '../../../components/Match/LiveMatch'
 
 export class HomeView extends React.Component {
   static propTypes = {
     getLiveMatches: PropTypes.func.isRequired,
+    getLiveMatchDetails: PropTypes.func.isRequired,
     matches: PropTypes.array.isRequired,
+    liveMatch: PropTypes.object,
   }
 
   componentDidMount() {
@@ -22,8 +25,16 @@ export class HomeView extends React.Component {
     let matches = null
     if (this.props.matches.length > 0) {
       matches = this.props.matches.map(match => (<TopLiveMatches key={match.server_steam_id} {...match} />))
+      if (!this.props.liveMatch) {
+        this.props.getLiveMatchDetails(this.props.matches[0].server_steam_id)
+      }
     }
-    
+
+    let match = <div>Please select match</div>
+    if (this.props.liveMatch && this.props.liveMatch.teams) {
+      match = <LiveMatch getLiveMatchDetails={this.props.getLiveMatchDetails} {...this.props.liveMatch} />
+    }
+
     return (
       <div className={'row'}>
         <div className={'col-md-4'}>
@@ -31,6 +42,7 @@ export class HomeView extends React.Component {
         </div>
         <div className={'col-md-8'}>
           Main
+          {match}
         </div>
       </div>
     )
@@ -43,10 +55,12 @@ export class HomeView extends React.Component {
 
 const mapDispatchToProps = {
   getLiveMatches,
+  getLiveMatchDetails
 }
 
 const mapStateToProps = state => ({
-  matches: state.home.matches
+  matches: state.home.matches,
+  liveMatch: state.home.live,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeView)

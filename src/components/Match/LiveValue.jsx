@@ -41,10 +41,10 @@ export default class LiveValue extends React.Component {
   render() {
     return (
       <span
-        className={`stats-count ${this.props.changeClass} ${this.state.positiveNegative} ${this.props.highlightClass}`}
+        className={`stats-count ${this.state.positiveNegative} ${this.props.highlightClass}`}
         data-value={this.state.oldValue}
       >
-        {this.props.includeSymbol ? <span className='change' /> : ''}
+        {this.props.includeSymbol ? <span className={this.props.changeClass} /> : ''}
         {this.props.value}
       </span>
     )

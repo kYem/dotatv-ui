@@ -4,14 +4,18 @@ $red: #931d28;
 .stats-count {
   &.up {
     color: $green;
-    animation: highlight 2s;
+    &.highlight {
+      animation: highlight 2s;
+    }
     .change {
       display: inline-block;
       border-bottom: 8px solid $green;
     }
   }
   &.down {
-    animation: highlight 2s;
+    &.highlight {
+      animation: highlight 2s;
+    }
     color: $red;
     .change {
       display: inline-block;
@@ -31,7 +35,7 @@ $red: #931d28;
 
   @keyframes highlight {
     0% {
-      background: #040171
+      background: #436366
     }
     100% {
       background: none;
