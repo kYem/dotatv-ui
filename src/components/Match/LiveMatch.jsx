@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import './LiveMatch.scss'
 import PlayerTable from './PlayerTable'
 import { gameTime } from '../../actions/matchProcessing'
+import { LiveStreaming } from '../../actions/LiveStreaming'
 
 class LiveMatch extends React.Component {
 
@@ -29,6 +30,12 @@ class LiveMatch extends React.Component {
     this.refresh = setInterval(() => {
       this.props.getLiveMatchDetails(this.props.match.server_steam_id)
     }, 2000)
+
+    const liveStreaming = new LiveStreaming('ws://127.0.0.1:8008/socket')
+    this.socket = liveStreaming.getSocket(() => {
+      console.log('sending')
+      this.socket.send('yes')
+    })
   }
 
   render() {
