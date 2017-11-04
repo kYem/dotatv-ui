@@ -1,37 +1,6 @@
 // @flow
-import { LIVE_MATCH_DETAILS, LIVE_MATCHES } from '../../../actions/api'
+import { matchToPlayers } from '../../../actions/matchProcessing'
 
-const config = require('../../../../project.config')
-
-// Test data
-const proPlayers = require('../../../data/pro-players.json')
-const heroes = require('../../../data/heroes.json')
-
-// ------------------------------------
-// Actions
-// ------------------------------------
-export function mapAccountToPlayer(playerObject) {
-  const heroData = heroes.heroes.find(hero => hero.id === playerObject.hero_id)
-  const heroName = heroData ? heroData.name.replace('npc_dota_hero_', '') : ''
-
-  return Object.assign(
-    playerObject,
-    proPlayers.find(player => player.account_id === playerObject.account_id),
-    {
-      hero_name: heroName,
-      hero_image: heroData ? `${config.dotaImageCdn}/heroes/${heroName}_sb.png` : ''
-    }
-  )
-}
-
-const matchToPlayers = (match) => {
-  match.players.map(player => mapAccountToPlayer(player))
-  return match
-}
-
-// ------------------------------------
-// Action Handlers
-// ------------------------------------
 const ACTION_HANDLERS = {
   LIVE_MATCH_DETAILS : (state, action) => {
     const oldLive = Object.assign({}, state.live, { ...action.payload.match })
@@ -59,9 +28,7 @@ const ACTION_HANDLERS = {
       live: Object.assign({}, liveMatch)
     })
   },
-  MATCH_FINISHED : (state, action) => {
-    return Object.assign({}, state, { matches: [], live: null })
-  }
+  MATCH_FINISHED : (state, action) => Object.assign({}, state, { matches: [], live: null })
 }
 
 // ------------------------------------

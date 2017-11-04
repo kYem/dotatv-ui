@@ -13,7 +13,7 @@ export function mapAccountToPlayer(playerObject) {
     proPlayers.find(player => player.account_id === playerObject.account_id),
     {
       hero_name: heroName,
-      hero_image: heroData ? `${config.dotaImageCdn}/heroes/${heroName}_sb.png` : '',
+      hero_image: heroData ? `${config.dotaImageCdn}/heroes/${heroName}_sb.png` : '/images/heroes/unknown-hero.jpeg',
       hero_id: playerObject.hero_id
     }
   )
@@ -29,7 +29,7 @@ export function matchToPlayers(match) {
 
 export function getKnownPlayers(players) {
   if (!players) {
-    return players
+    return []
   }
   return players.filter(player => player.is_pro)
 }

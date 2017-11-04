@@ -7,7 +7,7 @@ import './TopLiveMatches.scss'
 
 export default class TopLiveMatches extends React.Component {
   static propTypes = {
-    players: PropTypes.array.isRequired,
+    players: PropTypes.array,
     average_mmr: PropTypes.number.isRequired,
     server_steam_id: PropTypes.string.isRequired,
     radiant_score: PropTypes.number.isRequired,
