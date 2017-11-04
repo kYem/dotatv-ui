@@ -29,8 +29,10 @@ export default class TopLiveMatches extends React.Component {
           Radiant <span>{this.props.radiant_score}</span> : <span>{this.props.dire_score}</span> Dire
           </Link>
         </h5>
-        <h6> avg mmr {this.props.average_mmr} - <span>Game time: {gameTime(this.props.game_time)}</span> </h6>
-        <table className='ui table'>
+        <div className={'game-info'}>
+          <span>Game time: {gameTime(this.props.game_time)}</span> - mmr {this.props.average_mmr}
+        </div>
+        <table className='ui table live-match'>
           <tbody>
             {getKnownPlayers(this.props.players).map(player => (<NotablePlayer key={player.account_id} {...player} />))}
           </tbody>

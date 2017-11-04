@@ -15,12 +15,16 @@ class NotablePlayer extends React.Component {
   }
 
   render() {
+
+    const tableStyle = {
+      textAlign: 'right'
+    }
     return (
       <tr>
         <td>
           <img src={this.props.hero_image} alt={this.props.hero_name} className='ui mini left floated rounded image' />
         </td>
-        <td className='aligned'>
+        <td className='aligned' style={tableStyle}>
           <a
             href={`https://www.dotabuff.com/players/${this.props.account_id}`}
             target='_blank'

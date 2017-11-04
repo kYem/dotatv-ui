@@ -8,8 +8,17 @@ const ACTION_HANDLERS = {
     if (gameMatches) {
       liveMatches = gameMatches.map(match => matchToPlayers(match))
     }
+
+    let liveMatchId = ''
+    // Filter out live match view
+    if (state.live && state.live.match) {
+      liveMatchId = state.live.match.server_steam_id
+    }
+
+    const filteredMatches = liveMatches.filter(match => match.server_steam_id !== liveMatchId)
+
     return Object.assign({}, state, {
-      matches: liveMatches,
+      matches: filteredMatches,
     })
   },
   LIVE_MATCH_DETAILS : (state, action) => {
