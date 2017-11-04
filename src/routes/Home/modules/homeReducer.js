@@ -1,37 +1,36 @@
 import { LIVE_MATCH_DETAILS, LIVE_MATCHES } from '../../../actions/api'
-import {mapAccountToPlayer, matchToPlayers} from '../../../actions/matchProcessing'
+import { mapAccountToPlayer, matchToPlayers } from '../../../actions/matchProcessing'
+
+const filterLiveMatches = (liveMatchId, matches) => matches.filter(match => match.server_steam_id !== liveMatchId)
 
 const ACTION_HANDLERS = {
   LIVE_MATCHES : (state, action) => {
     const gameMatches = action.payload.game_list
-    let liveMatches = [];
-    if (gameMatches) {
-      liveMatches = gameMatches.map(match => matchToPlayers(match))
+
+    if (!gameMatches) {
+      return Object.assign({}, state, { matches: [] })
     }
 
-    let liveMatchId = ''
-    // Filter out live match view
-    if (state.live && state.live.match) {
-      liveMatchId = state.live.match.server_steam_id
-    }
-
-    const filteredMatches = liveMatches.filter(match => match.server_steam_id !== liveMatchId)
+    const parsedMatches = gameMatches.map(match => matchToPlayers(match))
+    const liveMatchId = state.live && state.live.match ? state.live.match.server_steam_id : ''
 
     return Object.assign({}, state, {
-      matches: filteredMatches,
+      matches: filterLiveMatches(liveMatchId, parsedMatches),
     })
   },
   LIVE_MATCH_DETAILS : (state, action) => {
     action.payload.teams.forEach((team) => {
       team.players.map(player => mapAccountToPlayer(player))
     })
-    const oldLive = Object.assign({}, state.live, { ...action.payload })
-    oldLive.updated = Date.now()
-    return Object.assign({}, state, { live: oldLive })
+    const oldLive = Object.assign({}, state.live, { updated: Date.now(), ...action.payload })
+    const liveMatchId = oldLive.match ? oldLive.match.server_steam_id : ''
+
+    return Object.assign({}, state, {
+      live: oldLive,
+      matches: filterLiveMatches(liveMatchId, state.matches)
+    })
   },
-  MATCH_FINISHED : (state, action) => {
-    return Object.assign({}, state, { matches: [], live: null })
-  }
+  MATCH_FINISHED : (state, action) => Object.assign({}, state, { matches: [], live: null })
 }
 
 const initialState = {
