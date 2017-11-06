@@ -46,7 +46,7 @@ class LiveMatch extends React.Component {
     return (
       <div className='liveMatch'>
         <header>
-          <h3>Radiant <span>{radiant.score}</span> : <span>{dire.score}</span> Dire</h3>
+          <h3>{radiant.team_name || 'Radiant'} <span>{radiant.score}</span> : <span>{dire.score}</span> {dire.team_name || 'Dire'}</h3>
           <div>
             <span>Game time: {gameTime(this.props.match.game_time)}</span>
             {this.props.average_mmr && <span>Average mmr {this.props.average_mmr}</span>}

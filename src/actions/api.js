@@ -16,7 +16,7 @@ const DEFAULT_OPTIONS = {
   })
 }
 
-export default function makeRequest(url, options, dispatch, dispatchType) {
+function makeRequest(url, options, dispatch, dispatchType) {
   fetch(url, options)
     .then((response) => {
       const type = response.status !== 200 ? API_ERROR : dispatchType
@@ -36,14 +36,20 @@ export function getLiveMatches(partner = 0) {
     )
 }
 
+const isMatchComplete = (json) => {
+  if (!json.match || !json.buildings) {
+    return true
+  }
+
+  return json.buildings[17].destroyed || json.buildings[35].destroyed
+}
+
 export function getLiveMatchDetails(serverSteamId) {
   return (dispatch, getState) =>
     fetch(`${config.apiHostname}/live/stats?server_steam_id=${serverSteamId}`, DEFAULT_OPTIONS)
       .then((response) => {
-        response.json().then(json => {
-
-          const gameCompleted = !json.match || json.buildings[17].destroyed || json.buildings[35].destroyed
-          const type = gameCompleted ? MATCH_FINISHED : LIVE_MATCH_DETAILS
+        response.json().then((json) => {
+          const type = isMatchComplete(json) ? MATCH_FINISHED : LIVE_MATCH_DETAILS
           // If we still have match, update details otherwise get new live matches
           return dispatch({ type, payload: json })
         })
