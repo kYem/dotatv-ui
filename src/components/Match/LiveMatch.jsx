@@ -4,6 +4,7 @@ import './LiveMatch.scss'
 import PlayerTable from './PlayerTable'
 import { gameTime } from '../../actions/matchProcessing'
 import { LiveStreaming } from '../../actions/LiveStreaming'
+import LiveValue from './LiveValue'
 
 class LiveMatch extends React.Component {
 
@@ -25,10 +26,16 @@ class LiveMatch extends React.Component {
       league_id: PropTypes.number.isRequired
     }).isRequired,
     average_mmr: PropTypes.number,
+    graph_data: PropTypes.shape({
+      graph_gold: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired
+    }).isRequired
   }
 
   static defaultProps = {
     average_mmr: 0,
+    graph_data: {
+      graph_gold: []
+    }
   }
 
   componentDidMount() {
@@ -50,13 +57,18 @@ class LiveMatch extends React.Component {
     const radiant = this.props.teams[0]
     const dire = this.props.teams[1]
     const lastUpdated = this.props.updated ? new Date(this.props.updated) : '-'
+    const graphGold = this.props.graph_data.graph_gold
+    const lastAdvantageTick = graphGold[graphGold.length - 1]
+    const teamAdvantage = <LiveValue shouldResetStyle={false} value={Math.abs(lastAdvantageTick)} />
     return (
       <div className='liveMatch'>
         <header>
           <h4 className='title'>
+            { lastAdvantageTick > 0 ? teamAdvantage : ''}
             {radiant.team_name || 'Radiant'} {radiant.score}
             <span> : </span>
             {dire.score} {dire.team_name || 'Dire'}
+            { lastAdvantageTick < 0 ? teamAdvantage : ''}
           </h4>
           <div>
             <span>Game time: {gameTime(this.props.match.game_time)}</span>

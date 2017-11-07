@@ -7,6 +7,7 @@ export default class LiveValue extends React.Component {
   static propTypes = {
     value: PropTypes.number.isRequired,
     includeSymbol: PropTypes.bool.isRequired,
+    shouldResetStyle: PropTypes.bool.isRequired,
     positiveClass: PropTypes.string.isRequired,
     negativeClass: PropTypes.string.isRequired,
     changeClass: PropTypes.string.isRequired,
@@ -20,6 +21,7 @@ export default class LiveValue extends React.Component {
     precision: 2,
     includeSymbol: false,
     highlightClass: 'highlight',
+    shouldResetStyle: true,
   }
   constructor(props) {
     super(props)
@@ -30,7 +32,7 @@ export default class LiveValue extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let positiveNegative = ''
+    let positiveNegative = this.props.shouldResetStyle ? '' : this.state.positiveNegative
     if (this.props.value !== nextProps.value) {
       positiveNegative = this.props.value > nextProps.value ? nextProps.negativeClass : nextProps.positiveClass
     }
