@@ -18,12 +18,17 @@ class LiveMatch extends React.Component {
     })).isRequired,
     match: PropTypes.shape({
       server_steam_id:  PropTypes.string.isRequired,
-      matchid:  PropTypes.string.isRequired,
+      match_id:  PropTypes.string.isRequired,
       timestamp: PropTypes.number.isRequired,
       game_time: PropTypes.number.isRequired,
       game_mode: PropTypes.number.isRequired,
       league_id: PropTypes.number.isRequired
-    }).isRequired
+    }).isRequired,
+    average_mmr: PropTypes.number,
+  }
+
+  static defaultProps = {
+    average_mmr: 0,
   }
 
   componentDidMount() {
@@ -33,23 +38,29 @@ class LiveMatch extends React.Component {
 
     const liveStreaming = new LiveStreaming('ws://127.0.0.1:8008/socket')
     this.socket = liveStreaming.getSocket(() => {
-      console.log('sending')
       this.socket.send('yes')
     })
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.refresh)
   }
 
   render() {
     const radiant = this.props.teams[0]
     const dire = this.props.teams[1]
     const lastUpdated = this.props.updated ? new Date(this.props.updated) : '-'
-
     return (
       <div className='liveMatch'>
         <header>
-          <h3>{radiant.team_name || 'Radiant'} <span>{radiant.score}</span> : <span>{dire.score}</span> {dire.team_name || 'Dire'}</h3>
+          <h4 className='title'>
+            {radiant.team_name || 'Radiant'} {radiant.score}
+            <span> : </span>
+            {dire.score} {dire.team_name || 'Dire'}
+          </h4>
           <div>
             <span>Game time: {gameTime(this.props.match.game_time)}</span>
-            {this.props.average_mmr && <span>Average mmr {this.props.average_mmr}</span>}
+            <span> {this.props.average_mmr ? <span> | mmr {this.props.average_mmr}</span> : ''} </span>
             <span className='updated timestamp'>Last updated {lastUpdated.toLocaleString()}</span>
           </div>
         </header>
@@ -60,10 +71,6 @@ class LiveMatch extends React.Component {
         <PlayerTable players={dire.players} />
       </div>
     )
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.refresh)
   }
 }
 

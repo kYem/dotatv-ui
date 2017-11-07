@@ -18,7 +18,7 @@ export default class TopLiveMatches extends React.Component {
     players: PropTypes.arrayOf(PropTypes.shape({
       account_id: PropTypes.number.isRequired,
       hero_id: PropTypes.number.isRequired,
-    }).isRequired).isRequired,
+    }).isRequired),
     radiant_lead: PropTypes.number.isRequired,
     radiant_score: PropTypes.number.isRequired,
     server_steam_id: PropTypes.string.isRequired,
@@ -31,6 +31,7 @@ export default class TopLiveMatches extends React.Component {
     team_name_radiant: 'Radiant',
     team_name_dire: 'Dire',
     average_mmr: 0,
+    players: []
   };
 
 

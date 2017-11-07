@@ -41,7 +41,6 @@ export class HomeView extends React.Component {
           {matches}
         </div>
         <div className={'col-md-8 col-lg-9'}>
-          Main
           {match}
         </div>
       </div>
