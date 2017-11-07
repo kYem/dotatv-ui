@@ -23,7 +23,7 @@ const getLiveMatchId = (state) => {
 }
 
 const ACTION_HANDLERS = {
-  LIVE_MATCHES : (state, action) => {
+  [LIVE_MATCHES] : (state, action) => {
     const gameMatches = action.payload.game_list
 
     if (!gameMatches) {
@@ -35,7 +35,7 @@ const ACTION_HANDLERS = {
 
     return { ...state, matches }
   },
-  LIVE_MATCH_DETAILS : (state, action) => {
+  [LIVE_MATCH_DETAILS] : (state, action) => {
     const payload = action.payload
     payload.teams.forEach((team) => {
       team.players.map(player => mapAccountToPlayer(player))
@@ -50,11 +50,12 @@ const ACTION_HANDLERS = {
 
     return { ...state, live: liveMatchState, matches }
   },
-  MATCH_FINISHED : (state, action) => Object.assign({}, state, { matches: [], live: null })
+  MATCH_FINISHED : (state, action) => ({ ...state, live: null })
 }
 
 const initialState = {
   matches: [],
+  live: null,
 }
 
 export default function counterReducer(state: {matches: []} = initialState, action) {
