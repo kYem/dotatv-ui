@@ -37,11 +37,12 @@ export function getLiveMatches(partner = 0) {
 }
 
 const isMatchComplete = (json) => {
-  if (!json.match || !json.buildings) {
+  const buildings = json.buildings
+  if (!json.match || !buildings) {
     return true
   }
 
-  return json.buildings[17].destroyed || json.buildings[35].destroyed
+  return (buildings[17] && buildings[17].destroyed) || (buildings[35] && buildings[35].destroyed)
 }
 
 export function getLiveMatchDetails(serverSteamId) {
