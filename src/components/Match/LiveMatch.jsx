@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import './LiveMatch.scss'
 import PlayerTable from './PlayerTable'
 import { gameTime } from '../../actions/matchProcessing'
-import { LiveStreaming } from '../../actions/LiveStreaming'
+import LiveStreaming from '../../actions/LiveStreaming'
 import LiveValue from './LiveValue'
 
 class LiveMatch extends React.Component {
@@ -43,10 +43,7 @@ class LiveMatch extends React.Component {
       this.props.getLiveMatchDetails(this.props.match.server_steam_id)
     }, 2000)
 
-    const liveStreaming = new LiveStreaming('ws://127.0.0.1:8008/socket')
-    this.socket = liveStreaming.getSocket(() => {
-      this.socket.send('yes')
-    })
+
   }
 
   componentWillUnmount() {
