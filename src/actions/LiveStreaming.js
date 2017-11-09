@@ -19,6 +19,7 @@ export default class LiveStreaming {
     this.socket.onclose = (e) => {
       console.log(`connection closed (${e.code})`)
       this.isOpen = false
+      this.events = {}
     }
 
     this.socket.onmessage = (e) => {
