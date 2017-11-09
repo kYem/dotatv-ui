@@ -1,6 +1,7 @@
 // @flow
 import fetch from 'isomorphic-fetch'
 import LiveStreaming from './LiveStreaming'
+import BaseMapper from './baseMapper'
 
 export const API_ERROR = 'API_ERROR'
 export const LIVE_MATCH_DETAILS = 'LIVE_MATCH_DETAILS'
@@ -16,6 +17,8 @@ const DEFAULT_OPTIONS = {
     Accept: 'application/json',
   })
 }
+
+const mapper = new BaseMapper()
 
 function makeRequest(url, options, dispatch, dispatchType) {
   fetch(url, options)
@@ -60,25 +63,12 @@ export function getLiveMatchDetails(serverSteamId) {
 }
 
 export function wsGetLiveMatchDetails(serverSteamId) {
-  return (dispatch, getState) =>
-    fetch(`${config.apiHostname}/live/stats?server_steam_id=${serverSteamId}`, DEFAULT_OPTIONS)
-      .then((response) => {
-        response.json().then((json) => {
-          const type = isMatchComplete(json) ? MATCH_FINISHED : LIVE_MATCH_DETAILS
-          // If we still have match, update details otherwise get new live matches
-          return dispatch({ type, payload: json })
-        })
+  return (dispatch) =>
+    mapper.getRequest('match.live', { server_steam_id: serverSteamId })
+      .then((json) => {
+        const type = isMatchComplete(json.data) ? MATCH_FINISHED : LIVE_MATCH_DETAILS
+        // If we still have match, update details otherwise get new live matches
+        return dispatch({ type, payload: json.data })
       })
       .catch(err => dispatch({ type: API_ERROR, payload: err }))
-}
-
-function getEvent() {
-  this.liveStreaming = new LiveStreaming('ws://127.0.0.1:8008/socket', () => {
-    const reference = this.props.match.server_steam_id
-    this.liveStreaming.emit('live_match', {serverId:this.reference}, reference)
-    this.liveStreaming.on('live_match.' + reference, (data) => {
-
-    })
-  })
-
 }

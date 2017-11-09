@@ -1,12 +1,16 @@
 export default class LiveStreaming {
 
-  constructor(wsuri = 'ws://127.0.0.1:1234/socket', onConnect) {
+  constructor(wsuri = 'ws://127.0.0.1:8008/socket', onConnect) {
     this.isOpen = false
     this.socket = new WebSocket(wsuri)
 
+    // Track events
+    this.events = {}
+
     this.socket.onopen = () => {
-      console.log(`connected to ${this.uri}`)
+      console.log(`connected to ${wsuri}`)
       this.isOpen = true
+      window.addEventListener('beforeunload', () => this.socket.close())
       if (typeof onConnect === 'function') {
         onConnect()
       }
@@ -18,16 +22,37 @@ export default class LiveStreaming {
     }
 
     this.socket.onmessage = (e) => {
-      console.log(`message received: ${e.data}`)
+      const msg = JSON.parse(e.data)
+      if (this.events[msg.event]) {
+        this.events[msg.event].callback(msg)
+        delete this.events[msg.event]
+      } else {
+        console.log(`message received, not found handler: ${e.data}`)
+      }
     }
   }
 
   emit(event, params, reference) {
-    this.socket.send(JSON.stringify({
-      event,
-      params,
-      reference
-    }))
+
+    if (!this.isOpen) {
+      const internal = setInterval(() => {
+        if (this.isOpen) {
+          clearInterval(internal)
+          console.log('sending ', event)
+          this.socket.send(JSON.stringify({ event, params, reference }))
+        }
+      }, 10)
+    } else {
+      this.socket.send(JSON.stringify({ event, params, reference }))
+    }
+  }
+
+  /**
+   * @param event
+   * @param callback
+   */
+  once(event, callback) {
+    this.events[event] = { callback }
   }
 
   send(msg) {

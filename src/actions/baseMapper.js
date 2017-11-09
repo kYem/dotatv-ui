@@ -1,10 +1,10 @@
-import moment from 'moment'
-import { getSocket } from 'iiSocket'
+import LiveStreaming from './LiveStreaming'
+
+const moment = require('moment')
 
 export default class BaseMapper {
   constructor(socket) {
-    this.urg = new UniqueRequestGeneratorService()
-    this.socket = socket || getSocket('default')
+    this.socket = socket || new LiveStreaming()
   }
 
     /**
@@ -17,13 +17,8 @@ export default class BaseMapper {
      */
   getRequest(serviceName, parameters) {
     return new Promise((resolve, reject) => {
-      const reference = this.urg.generate()
-      const data = {
-        parameters,
-        reference
-      }
-
-      this.socket.emit(serviceName, data)
+      const reference = BaseMapper.generate()
+      this.socket.emit(serviceName, parameters, reference)
       this.socket.once(`${serviceName}.${reference}`, (response) => {
         if (response && response.success) {
           resolve(response)
@@ -34,13 +29,13 @@ export default class BaseMapper {
     })
   }
 
-  generate() {
+  static generate() {
     return `${moment().format('YYYYMMDD-HHmmss')}-${Math.round(Math.random() * 10000000)}`
   }
 
   getRequestData(serviceName, parameters) {
     return new Promise((resolve, reject) => {
-      const reference = this.urg.generate()
+      const reference = BaseMapper.generate()
       const data = {
         parameters,
         reference

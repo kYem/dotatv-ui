@@ -3,13 +3,12 @@ import PropTypes from 'prop-types'
 import './LiveMatch.scss'
 import PlayerTable from './PlayerTable'
 import { gameTime } from '../../actions/matchProcessing'
-import LiveStreaming from '../../actions/LiveStreaming'
 import LiveValue from './LiveValue'
 
 class LiveMatch extends React.Component {
 
   static propTypes = {
-    getLiveMatchDetails: PropTypes.func.isRequired,
+    wsGetLiveMatchDetails: PropTypes.func.isRequired,
     teams: PropTypes.arrayOf(PropTypes.shape({
       players: PropTypes.array.isRequired,
       team_name: PropTypes.string.isRequired,
@@ -39,11 +38,10 @@ class LiveMatch extends React.Component {
   }
 
   componentDidMount() {
+    this.props.wsGetLiveMatchDetails(this.props.match.server_steam_id)
     this.refresh = setInterval(() => {
-      this.props.getLiveMatchDetails(this.props.match.server_steam_id)
-    }, 2000)
-
-
+      this.props.wsGetLiveMatchDetails(this.props.match.server_steam_id)
+    }, 3000)
   }
 
   componentWillUnmount() {

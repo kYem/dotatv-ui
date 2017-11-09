@@ -2,14 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import connect from 'react-redux/es/connect/connect'
 import './HomeView.scss'
-import { getLiveMatches, getLiveMatchDetails } from '../../../actions/api'
+import { getLiveMatches, wsGetLiveMatchDetails } from '../../../actions/api'
 import TopLiveMatches from '../../../components/Match/TopLiveMatches'
 import LiveMatch from '../../../components/Match/LiveMatch'
 
 export class HomeView extends React.Component {
   static propTypes = {
     getLiveMatches: PropTypes.func.isRequired,
-    getLiveMatchDetails: PropTypes.func.isRequired,
+    wsGetLiveMatchDetails: PropTypes.func.isRequired,
     matches: PropTypes.array.isRequired,
     liveMatch: PropTypes.object,
   }
@@ -26,13 +26,16 @@ export class HomeView extends React.Component {
     if (this.props.matches.length > 0) {
       matches = this.props.matches.map(match => (<TopLiveMatches key={match.server_steam_id} {...match} />))
       if (!this.props.liveMatch) {
-        this.props.getLiveMatchDetails(this.props.matches[0].server_steam_id)
+        this.props.wsGetLiveMatchDetails(this.props.matches[0].server_steam_id)
       }
     }
 
     let match = <div>Please select match</div>
     if (this.props.liveMatch && this.props.liveMatch.teams) {
-      match = <LiveMatch getLiveMatchDetails={this.props.getLiveMatchDetails} {...this.props.liveMatch} />
+      match = (<LiveMatch
+        wsGetLiveMatchDetails={this.props.wsGetLiveMatchDetails}
+        {...this.props.liveMatch}
+      />)
     }
 
     return (
@@ -54,7 +57,7 @@ export class HomeView extends React.Component {
 
 const mapDispatchToProps = {
   getLiveMatches,
-  getLiveMatchDetails
+  wsGetLiveMatchDetails,
 }
 
 const mapStateToProps = state => ({
