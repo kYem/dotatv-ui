@@ -25,6 +25,7 @@ module.exports = {
   /** The list of modules to bundle separately from the core application code */
   apiHostname: `http://${API_HOSTNAME}`,
   dotaImageCdn: 'http://cdn.dota2.com/apps/dota2/images',
+  wsEndpoint: 'ws://127.0.0.1:8008/ws',
   vendors: [
     'react',
     'react-dom',

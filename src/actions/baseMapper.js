@@ -1,10 +1,11 @@
 import LiveStreaming from './LiveStreaming'
+import * as config from '../../project.config'
 
 const moment = require('moment')
 
 export default class BaseMapper {
   constructor(socket) {
-    this.socket = socket || new LiveStreaming()
+    this.socket = socket || new LiveStreaming(config.wsEndpoint)
   }
 
     /**
@@ -27,6 +28,43 @@ export default class BaseMapper {
         }
       })
     })
+  }
+
+  /**
+   * Get service promise.
+   * @param serviceName
+   * @param parameters
+   * @param staticReference
+   * @return {Promise} a promise that may be resolved
+   * with the given resolve and reject functions,
+   * or rejected by a thrown exception in resolver
+   */
+  subscribe(serviceName, parameters, staticReference) {
+    return new Promise((resolve, reject) => {
+      const reference = staticReference || BaseMapper.generate()
+      this.socket.emit(serviceName, parameters, reference)
+      this.socket.subscribe(`${serviceName}.${reference}`, (response) => {
+        if (response && response.success) {
+          resolve(response)
+        } else {
+          reject(response)
+        }
+      })
+    })
+  }
+
+  /**
+   * Get service promise.
+   * @param serviceName
+   * @param parameters
+   * @param staticReference
+   * @param callback
+   * with the given resolve and reject functions,
+   * or rejected by a thrown exception in resolver
+   */
+  sub(serviceName, parameters, staticReference, callback) {
+    this.socket.emit(serviceName, parameters, staticReference)
+    this.socket.subscribe(`${serviceName}.${staticReference}`, callback)
   }
 
   static generate() {

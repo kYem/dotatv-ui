@@ -6,6 +6,7 @@ export default class LiveStreaming {
 
     // Track events
     this.events = {}
+    this.subscriptions = {}
 
     this.socket.onopen = () => {
       console.log(`connected to ${wsuri}`)
@@ -20,11 +21,15 @@ export default class LiveStreaming {
       console.log(`connection closed (${e.code})`)
       this.isOpen = false
       this.events = {}
+      this.subscriptions = {}
     }
 
     this.socket.onmessage = (e) => {
       const msg = JSON.parse(e.data)
-      if (this.events[msg.event]) {
+
+      if (this.subscriptions[msg.event]) {
+        this.subscriptions[msg.event].callback(msg)
+      } else if (this.events[msg.event]) {
         this.events[msg.event].callback(msg)
         delete this.events[msg.event]
       } else {
@@ -54,6 +59,14 @@ export default class LiveStreaming {
    */
   once(event, callback) {
     this.events[event] = { callback }
+  }
+
+  /**
+   * @param event
+   * @param callback
+   */
+  subscribe(event, callback) {
+    this.subscriptions[event] = { callback }
   }
 
   send(msg) {

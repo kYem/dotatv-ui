@@ -39,9 +39,6 @@ class LiveMatch extends React.Component {
 
   componentDidMount() {
     this.props.wsGetLiveMatchDetails(this.props.match.server_steam_id)
-    this.refresh = setInterval(() => {
-      this.props.wsGetLiveMatchDetails(this.props.match.server_steam_id)
-    }, 3000)
   }
 
   componentWillUnmount() {
