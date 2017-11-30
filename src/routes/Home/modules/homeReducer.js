@@ -30,9 +30,7 @@ const ACTION_HANDLERS = {
       return { ...state, matches: [] }
     }
 
-    const parsedMatches = gameMatches.map(match => matchToPlayers(match))
-    const { matches } = filterLiveMatches(getLiveMatchId(state), parsedMatches)
-
+    const matches = gameMatches.map(match => matchToPlayers(match))
     return { ...state, matches }
   },
   [LIVE_MATCH_DETAILS] : (state, action) => {
@@ -40,15 +38,16 @@ const ACTION_HANDLERS = {
     payload.teams.forEach((team) => {
       team.players.map(player => mapAccountToPlayer(player))
     })
-    const { matches, liveMatch } = filterLiveMatches(payload.match.server_steam_id, state.matches)
+
     const liveMatchState = { ...state.live, updated: Date.now(), ...payload }
+    const liveMatch = state.matches.find(match => match.server_steam_id === payload.match.server_steam_id)
 
     // Only update if we have a found live match
     if (liveMatch) {
       liveMatchState.average_mmr = liveMatch.average_mmr
     }
 
-    return { ...state, live: liveMatchState, matches }
+    return { ...state, live: liveMatchState }
   },
   MATCH_FINISHED : (state, action) => ({ ...state, live: null })
 }

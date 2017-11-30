@@ -39,7 +39,6 @@ export default class LiveStreaming {
   }
 
   emit(event, params, reference) {
-
     if (!this.isOpen) {
       const internal = setInterval(() => {
         if (this.isOpen) {
@@ -67,10 +66,6 @@ export default class LiveStreaming {
    */
   subscribe(event, callback) {
     this.subscriptions[event] = { callback }
-  }
-
-  send(msg) {
-    this.socket.send(msg)
   }
 }
 
