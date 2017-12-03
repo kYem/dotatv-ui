@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router'
 import PropTypes from 'prop-types'
 import { gameTime, getKnownPlayers } from '../../actions/matchProcessing'
 import NotablePlayer from './NotablePlayer'
@@ -23,9 +22,12 @@ export default class TopLiveMatches extends React.Component {
     radiant_score: PropTypes.number.isRequired,
     server_steam_id: PropTypes.string.isRequired,
     spectators: PropTypes.number.isRequired,
+    subscribeLiveMatch: PropTypes.func.isRequired,
+    active: PropTypes.string.isRequired
   }
 
   static defaultProps = {
+    active: '',
     game_time: 0,
     updated: 0,
     team_name_radiant: 'Radiant',
@@ -38,12 +40,17 @@ export default class TopLiveMatches extends React.Component {
   render() {
     return (
       <div className='main-container col-md-12'>
-        <h5>
-          <Link to={`/live/${this.props.server_steam_id}`} activeClassName='page-layout__nav-item--active'>
+        <h5 className={'header'}>
+          <a
+            role='button'
+            tabIndex={0}
+            onClick={() => this.props.subscribeLiveMatch(this.props.server_steam_id)}
+            className={this.props.active}
+          >
             {this.props.team_name_radiant} {this.props.radiant_score}
             <span>:</span>
             {this.props.dire_score} {this.props.team_name_dire}
-          </Link>
+          </a>
         </h5>
         <div className={'game-info'}>
           <span>Game time: {gameTime(this.props.game_time)}</span> - mmr {this.props.average_mmr}

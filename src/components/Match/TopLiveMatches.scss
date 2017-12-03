@@ -1,4 +1,12 @@
 .main-container {
   margin-bottom : 25px;
+  .header {
+    a {
+      &.active {
+        color : #715557;
+      }
+    }
+  }
+
 }
 

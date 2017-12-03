@@ -29,7 +29,13 @@ export class HomeView extends React.Component {
   render() {
     let matches = null
     if (this.props.matches.length > 0) {
-      matches = this.props.matches.map(match => (<TopLiveMatches key={match.server_steam_id} {...match} />))
+      matches = this.props.matches.map(match => (
+        <TopLiveMatches
+          subscribeLiveMatch={this.props.subscribeLiveMatch}
+          active={this.props.liveMatch && this.props.liveMatch.match.server_steam_id === match.server_steam_id ? 'active' : 'inactive'}
+          key={match.server_steam_id}
+          {...match}
+        />))
       if (!this.props.liveMatch) {
         this.props.subscribeLiveMatch(this.props.matches[0].server_steam_id)
       }
