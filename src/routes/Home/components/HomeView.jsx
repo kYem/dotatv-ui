@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import connect from 'react-redux/es/connect/connect'
 import './HomeView.scss'
-import { getLiveMatches, subscribeLiveMatch, wsGetLiveMatchDetails } from '../../../actions/api'
+import { getLiveMatches, subscribeLiveMatch } from '../../../actions/api'
 import TopLiveMatches from '../../../components/Match/TopLiveMatches'
 import LiveMatch from '../../../components/Match/LiveMatch'
 
@@ -10,7 +10,6 @@ export class HomeView extends React.Component {
   static propTypes = {
     getLiveMatches: PropTypes.func.isRequired,
     subscribeLiveMatch: PropTypes.func.isRequired,
-    wsGetLiveMatchDetails: PropTypes.func.isRequired,
     matches: PropTypes.array.isRequired,
     liveMatch: PropTypes.object,
   }
@@ -64,7 +63,6 @@ export class HomeView extends React.Component {
 
 const mapDispatchToProps = {
   getLiveMatches,
-  wsGetLiveMatchDetails,
   subscribeLiveMatch,
 }
 

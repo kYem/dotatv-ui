@@ -1,15 +1,30 @@
 export default class LiveStreaming {
 
-  constructor(wsuri = 'ws://127.0.0.1:8008/socket', onConnect) {
+  constructor(wsUri = 'ws://127.0.0.1:8008/socket', onConnect) {
     this.isOpen = false
-    this.socket = new WebSocket(wsuri)
+    this.connectionString = wsUri
+    this.socket = new WebSocket(this.connectionString)
+
+
+    /** The number of milliseconds to delay before attempting to reconnect. */
+    this.reconnectInterval = 1000
+    /** The maximum number of milliseconds to delay a reconnection attempt. */
+    this.maxReconnectInterval = 30000
+    /** The rate of increase of the reconnect delay. Allows reconnect attempts to back off when problems persist. */
+    this.reconnectDecay = 1.5
+
+    /** The maximum time in milliseconds to wait for a connection to succeed before closing and retrying. */
+    this.timeoutInterval = 2000
+
+    /** The maximum number of reconnection attempts to make. Unlimited if null. */
+    this.maxReconnectAttempts = null
 
     // Track events
     this.events = {}
     this.subscriptions = {}
 
     this.socket.onopen = () => {
-      console.log(`connected to ${wsuri}`)
+      console.log(`connected to ${wsUri}`)
       this.isOpen = true
       window.addEventListener('beforeunload', () => this.socket.close())
       if (typeof onConnect === 'function') {

@@ -62,17 +62,6 @@ export function getLiveMatchDetails(serverSteamId) {
       .catch(err => dispatch({ type: API_ERROR, payload: err }))
 }
 
-export function wsGetLiveMatchDetails(serverSteamId: string) {
-  return dispatch =>
-    mapper.subscribe('dota_live_match', { server_steam_id: serverSteamId }, serverSteamId)
-      .then((json) => {
-        const type = isMatchComplete(json.data) ? MATCH_FINISHED : LIVE_MATCH_DETAILS
-        // If we still have match, update details otherwise get new live matches
-        return dispatch({ type, payload: json.data })
-      })
-      .catch(err => dispatch({ type: API_ERROR, payload: err }))
-}
-
 export function subscribeLiveMatch(serverSteamId: string) {
   return dispatch =>
     mapper.sub('dota_live_match', { server_steam_id: serverSteamId }, serverSteamId, (json, err) => {
