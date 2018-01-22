@@ -10,7 +10,12 @@ const ACTION_HANDLERS = {
     }
 
     const matches = gameMatches.map(match => matchToPlayers(match))
-    return { ...state, matches }
+    let steamId = state.server_steam_id
+    if (steamId === '') {
+      steamId = matches[0].server_steam_id
+    }
+
+    return { ...state, matches, server_steam_id: steamId }
   },
   [LIVE_MATCH_SUBSCRIBE] : (state, action) => {
     const live = { ...state.live, isLoading: true }
