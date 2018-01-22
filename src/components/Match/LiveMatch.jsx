@@ -4,48 +4,57 @@ import './LiveMatch.scss'
 import PlayerTable from './PlayerTable'
 import { gameTime } from '../../actions/matchProcessing'
 import LiveValue from './LiveValue'
+import Progress from '../Progress'
 
 class LiveMatch extends React.Component {
 
   static propTypes = {
     wsGetLiveMatchDetails: PropTypes.func.isRequired,
+    serverId: PropTypes.string.isRequired,
     teams: PropTypes.arrayOf(PropTypes.shape({
       players: PropTypes.array.isRequired,
       team_name: PropTypes.string.isRequired,
       team_logo: PropTypes.string.isRequired,
       team_id: PropTypes.number.isRequired,
       score: PropTypes.number.isRequired,
-    })).isRequired,
+    })),
     match: PropTypes.shape({
-      server_steam_id:  PropTypes.string.isRequired,
-      match_id:  PropTypes.string.isRequired,
-      timestamp: PropTypes.number.isRequired,
       game_time: PropTypes.number.isRequired,
       game_mode: PropTypes.number.isRequired,
       league_id: PropTypes.number.isRequired
-    }).isRequired,
+    }),
     average_mmr: PropTypes.number,
     graph_data: PropTypes.shape({
       graph_gold: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired
-    }).isRequired
+    }),
+    updated: PropTypes.number,
+    isLoading: PropTypes.bool,
   }
 
   static defaultProps = {
+    isLoading: true,
     average_mmr: 0,
     graph_data: {
       graph_gold: []
-    }
+    },
+    teams: [],
+    match: {
+      game_time: 0,
+      game_mode: 0,
+      league_id: 0,
+    },
+    updated: 0,
   }
 
   componentDidMount() {
-    this.props.wsGetLiveMatchDetails(this.props.match.server_steam_id)
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.refresh)
+    this.props.wsGetLiveMatchDetails(this.props.serverId)
   }
 
   render() {
+    if (this.props.isLoading) {
+      return <Progress />
+    }
+
     const radiant = this.props.teams[0]
     const dire = this.props.teams[1]
     const lastUpdated = this.props.updated ? new Date(this.props.updated) : '-'

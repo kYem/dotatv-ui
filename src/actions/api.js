@@ -1,9 +1,9 @@
 // @flow
 import fetch from 'isomorphic-fetch'
-import LiveStreaming from './LiveStreaming'
 import BaseMapper from './baseMapper'
 
 export const API_ERROR = 'API_ERROR'
+export const LIVE_MATCH_SUBSCRIBE = 'LIVE_MATCH_SUBSCRIBE'
 export const LIVE_MATCH_DETAILS = 'LIVE_MATCH_DETAILS'
 export const LIVE_MATCHES = 'LIVE_MATCHES'
 export const MATCH_FINISHED = 'MATCH_FINISHED'
@@ -63,7 +63,8 @@ export function getLiveMatchDetails(serverSteamId) {
 }
 
 export function subscribeLiveMatch(serverSteamId: string) {
-  return dispatch =>
+  return (dispatch) => {
+    dispatch({ type: LIVE_MATCH_SUBSCRIBE, payload: serverSteamId })
     mapper.sub('dota_live_match', { server_steam_id: serverSteamId }, serverSteamId, (json, err) => {
       if (err) {
         return dispatch({ type: API_ERROR, payload: err })
@@ -73,4 +74,5 @@ export function subscribeLiveMatch(serverSteamId: string) {
       // If we still have match, update details otherwise get new live matches
       return dispatch({ type, payload: json.data })
     })
+  }
 }
