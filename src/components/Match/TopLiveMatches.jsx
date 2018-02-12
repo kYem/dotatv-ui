@@ -38,6 +38,7 @@ export default class TopLiveMatches extends React.Component {
 
 
   render() {
+    const mmr = this.props.average_mmr ? ` - mmr ${this.props.average_mmr}` : ''
     return (
       <div className='main-container col-md-12'>
         <h5 className={'header'}>
@@ -53,7 +54,7 @@ export default class TopLiveMatches extends React.Component {
           </a>
         </h5>
         <div className={'game-info'}>
-          <span>Game time: {gameTime(this.props.game_time)}</span> - mmr {this.props.average_mmr}
+          <span>Game time: {gameTime(this.props.game_time)}</span>{mmr}
           <div>Viewers: {this.props.spectators}</div>
         </div>
         <table className='ui table live-match'>
