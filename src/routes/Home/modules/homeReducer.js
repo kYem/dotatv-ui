@@ -46,7 +46,7 @@ const initialState = {
   server_steam_id: '',
 }
 
-export default function counterReducer(state: {matches: []} = initialState, action) {
+export default function homeReducer(state: {matches: []} = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
   return handler ? handler(state, action) : state
 }
