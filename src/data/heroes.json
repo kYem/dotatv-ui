@@ -459,8 +459,12 @@
     {
       "name": "npc_dota_hero_pangolier",
       "id": 120
+    },
+    {
+      "name": "npc_dota_hero_grimstroke",
+      "id": 121
     }
   ],
   "status": 200,
-  "count": 115
+  "count": 116
 }
