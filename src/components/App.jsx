@@ -22,11 +22,13 @@ class App extends React.Component {
   render() {
     return (
       <Provider store={this.props.store}>
-        <div style={{ height: '100%' }}>
-          <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme, muiTheme)}>
-            <Router history={browserHistory} children={this.props.routes} />
-          </MuiThemeProvider>
-        </div>
+        <React.StrictMode>
+          <div style={{ height: '100%' }}>
+            <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme, muiTheme)}>
+              <Router history={browserHistory} children={this.props.routes}/>
+            </MuiThemeProvider>
+          </div>
+        </React.StrictMode>
       </Provider>
     )
   }
