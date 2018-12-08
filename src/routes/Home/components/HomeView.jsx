@@ -7,7 +7,7 @@ import TopLiveMatches from '../../../components/Match/TopLiveMatches'
 import LiveMatch from '../../../components/Match/LiveMatch'
 import Progress from '../../../components/Progress'
 
-export class HomeView extends React.Component {
+class HomeView extends React.Component {
   static propTypes = {
     getLiveMatches: PropTypes.func.isRequired,
     subscribeLiveMatch: PropTypes.func.isRequired,

@@ -1,19 +1,19 @@
 import React from 'react'
-import { browserHistory, Router } from 'react-router'
+import { Route } from 'react-router'
 import { Provider } from 'react-redux'
-import PropTypes from 'prop-types'
 import { MuiThemeProvider } from 'material-ui'
 import { darkBaseTheme, getMuiTheme } from 'material-ui/styles/index'
+import { BrowserRouter, Link } from 'react-router-dom'
+import HomeView from '../routes/Home/components/HomeView'
+import createStore from '../store/createStore'
+import '../styles/main.scss'
 
+const store = createStore(window.__INITIAL_STATE__)
 const muiTheme = {
   button: { height: 38 },
 }
 
 class App extends React.Component {
-  static propTypes = {
-    store: PropTypes.object.isRequired,
-    routes: PropTypes.object.isRequired,
-  }
 
   static shouldComponentUpdate() {
     return false
@@ -21,11 +21,21 @@ class App extends React.Component {
 
   render() {
     return (
-      <Provider store={this.props.store}>
+      <Provider store={store}>
         <React.StrictMode>
           <div style={{ height: '100%' }}>
             <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme, muiTheme)}>
-              <Router history={browserHistory} children={this.props.routes}/>
+              <BrowserRouter>
+                <div className='container'>
+                  <div className='navigation'>
+                    <h1>Dota Tv</h1>
+                    <Link to='/' activeClassName='page-layout__nav-item--active'>Home</Link>
+                  </div>
+                  <div className='page-layout__viewport'>
+                    <Route path='/' component={HomeView} />
+                  </div>
+                </div>
+              </BrowserRouter>
             </MuiThemeProvider>
           </div>
         </React.StrictMode>
