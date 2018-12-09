@@ -5,25 +5,12 @@ import ReactDOM from 'react-dom'
 // ------------------------------------
 import App from './components/App'
 
-import CoreLayout from './layouts/PageLayout/PageLayout'
-
-const createRoutes = () => ({
-  path        : '/',
-  component   : CoreLayout,
-  childRoutes : [
-  ]
-})
-
-
 // Render Setup
 // ------------------------------------
 const MOUNT_NODE = document.getElementById('root')
 
 let render = () => {
-  ReactDOM.render(
-    <App/>,
-    MOUNT_NODE
-  )
+  ReactDOM.render(<App />, MOUNT_NODE)
 }
 
 // Development Tools
@@ -49,7 +36,6 @@ if (__DEV__) {
     // Setup hot module replacement
     module.hot.accept([
       './components/App',
-      './routes/index',
     ], () =>
       setImmediate(() => {
         ReactDOM.unmountComponentAtNode(MOUNT_NODE)

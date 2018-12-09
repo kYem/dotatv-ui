@@ -18,26 +18,24 @@ export default class LiveValue extends React.Component {
     positiveClass: 'up',
     negativeClass: 'down',
     changeClass: 'change',
-    precision: 2,
     includeSymbol: false,
     highlightClass: 'highlight',
     shouldResetStyle: true,
   }
-  constructor(props) {
-    super(props)
-    this.state = {
-      positiveNegative: '',
-      isSymbolVisible: false,
+
+
+  static getDerivedStateFromProps(props, state) {
+    let positiveNegative = props.shouldResetStyle ? '' : state.positiveNegative
+    if (props.value !== state.oldValue) {
+      positiveNegative = props.value > state.oldValue ? props.positiveClass : props.negativeClass
     }
+
+    return { positiveNegative, oldValue: props.value }
   }
 
-  componentWillReceiveProps(nextProps) {
-    let positiveNegative = this.props.shouldResetStyle ? '' : this.state.positiveNegative
-    if (this.props.value !== nextProps.value) {
-      positiveNegative = this.props.value > nextProps.value ? nextProps.negativeClass : nextProps.positiveClass
-    }
-    const state = { positiveNegative, oldValue: this.props.value }
-    this.setState(state)
+  state = {
+    positiveNegative: '',
+    isSymbolVisible: false,
   }
 
   render() {
