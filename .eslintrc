@@ -18,9 +18,9 @@
     "browser" : true
   },
   "globals": {
-    "__DEV__"      : false,
-    "__TEST__"     : false,
-    "__PROD__"     : false,
+    "__DEV__"      : true,
+    "__TEST__"     : true,
+    "__PROD__"     : true,
     "__COVERAGE__" : false
   },
   "rules": {
@@ -31,11 +31,15 @@
     "comma-dangle"         : "off",
     "semi": [2, "never"],
     "no-unexpected-multiline": 2,
+    "no-underscore-dangle": "off",
     "compat/compat": 2
   },
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
     }
+  },
+  "settings": {
+    "polyfills": ["promises", "fetch"]
   }
 }

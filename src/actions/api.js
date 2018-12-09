@@ -24,20 +24,21 @@ function makeRequest(url, options, dispatch, dispatchType) {
   fetch(url, options)
     .then((response) => {
       const type = response.status !== 200 ? API_ERROR : dispatchType
-      response.json().then((json) => {
-        dispatch({ type, payload: json })
-      })
+      response.json()
+        .then((json) => {
+          dispatch({ type, payload: json })
+        })
     })
     .catch(err => dispatch({ type: API_ERROR, payload: err }))
 }
 
-export function getLiveMatches(partner = 0) {
-  return dispatch => makeRequest(
-      `${config.apiHostname}/live?partner=${partner}`,
-      DEFAULT_OPTIONS,
-      dispatch,
-      LIVE_MATCHES
-    )
+export function getLiveMatches(partner: number = 0) {
+  return (dispatch: Function) => makeRequest(
+    `${config.apiHostname}/live?partner=${partner}`,
+    DEFAULT_OPTIONS,
+    dispatch,
+    LIVE_MATCHES
+  )
 }
 
 const isMatchComplete = (json) => {
@@ -50,20 +51,21 @@ const isMatchComplete = (json) => {
 }
 
 export function getLiveMatchDetails(serverSteamId: string) {
-  return (dispatch, getState) =>
+  return (dispatch: Function) =>
     fetch(`${config.apiHostname}/live/stats?server_steam_id=${serverSteamId}`, DEFAULT_OPTIONS)
       .then((response) => {
-        response.json().then((json) => {
-          const type = isMatchComplete(json) ? MATCH_FINISHED : LIVE_MATCH_DETAILS
-          // If we still have match, update details otherwise get new live matches
-          return dispatch({ type, payload: json })
-        })
+        response.json()
+          .then((json) => {
+            const type = isMatchComplete(json) ? MATCH_FINISHED : LIVE_MATCH_DETAILS
+            // If we still have match, update details otherwise get new live matches
+            return dispatch({ type, payload: json })
+          })
       })
       .catch(err => dispatch({ type: API_ERROR, payload: err }))
 }
 
 export function subscribeLiveMatch(serverSteamId: string) {
-  return (dispatch) => {
+  return (dispatch: Function) => {
     dispatch({ type: LIVE_MATCH_SUBSCRIBE, payload: serverSteamId })
     mapper.sub('dota_live_match', { server_steam_id: serverSteamId }, serverSteamId, (json, err) => {
       if (err) {

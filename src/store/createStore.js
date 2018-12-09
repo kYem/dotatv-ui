@@ -36,8 +36,7 @@ const createStore = (initialState = {}) => {
 
   if (module.hot) {
     module.hot.accept('./reducers', () => {
-      const reducers = require('./reducers').default
-      store.replaceReducer(reducers(store.asyncReducers))
+      store.replaceReducer(makeRootReducer(store.asyncReducers))
     })
   }
 

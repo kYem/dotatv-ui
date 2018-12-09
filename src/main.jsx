@@ -1,8 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-
-// Store Initialization
-// ------------------------------------
+import RedBox from 'redbox-react'
 import App from './components/App'
 
 // Render Setup
@@ -19,8 +17,6 @@ if (__DEV__) {
   if (module.hot) {
     const renderApp = render
     const renderError = (error) => {
-      const RedBox = require('redbox-react').default
-
       ReactDOM.render(<RedBox error={error} />, MOUNT_NODE)
     }
 

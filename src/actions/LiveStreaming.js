@@ -1,30 +1,37 @@
 export default class LiveStreaming {
 
-  constructor(wsUri, onConnect) {
-    this.isOpen = false
+  connectLock = false
+  isOpen = false
+
+  /** The number of milliseconds to delay before attempting to reconnect. */
+  reconnectInterval = 1000
+  /** The maximum number of milliseconds to delay a reconnection attempt. */
+  maxReconnectInterval = 30000
+  /** The rate of increase of the reconnect delay. Allows reconnect attempts to back off when problems persist. */
+  reconnectDecay = 1.5
+  /** The maximum time in milliseconds to wait for a connection to succeed before closing and retrying. */
+  timeoutInterval = 4000
+  /** The maximum number of reconnection attempts to make. Unlimited if null. */
+  maxReconnectAttempts = null
+
+  events = {}
+  subscriptions = {}
+
+  constructor(wsUri) {
     this.connectionString = wsUri
+    this.sockedOpen.bind(this)
+    this.onMessage.bind(this)
+    this.onClose.bind(this)
 
-    /** The number of milliseconds to delay before attempting to reconnect. */
-    this.reconnectInterval = 1000
-    /** The maximum number of milliseconds to delay a reconnection attempt. */
-    this.maxReconnectInterval = 30000
-    /** The rate of increase of the reconnect delay. Allows reconnect attempts to back off when problems persist. */
-    this.reconnectDecay = 1.5
-    /** The maximum time in milliseconds to wait for a connection to succeed before closing and retrying. */
-    this.timeoutInterval = 4000
-    /** The maximum number of reconnection attempts to make. Unlimited if null. */
-    this.maxReconnectAttempts = null
-
-    // Track events
-    this.events = {}
-    this.subscriptions = {}
-
-
+    window.addEventListener('beforeunload', () => {
+      if (this.socket) {
+        this.socket.close()
+      }
+    })
   }
 
   sockedOpen = (onConnect) => {
     this.isOpen = true
-    window.addEventListener('beforeunload', () => this.socket.close())
     if (typeof onConnect === 'function') {
       onConnect()
     }
@@ -35,19 +42,18 @@ export default class LiveStreaming {
     this.isOpen = false
     this.events = {}
     this.reconnect()
-      .then(() => console.log('Reconnected'))
-      .catch((e) => {
-        this.subscriptions = {}
-        console.log(e)
+      .catch((error) => {
+        this.events = {}
+        console.log(error)
       })
   }
 
   reconnect = () => this.connect().then(() => {
-    for (const prop in this.subscriptions) {
-      if (this.subscriptions.hasOwnProperty(prop)) {
-        const sub = this.subscriptions[prop]
+    if (this.isOpen) {
+      console.log('Reconnected')
+      Object.values(this.subscriptions).forEach((sub) => {
         this.subscribe(sub.serviceName, sub.parameters, sub.reference, sub.callback)
-      }
+      })
     }
   })
 
@@ -75,21 +81,31 @@ export default class LiveStreaming {
       return
     }
 
+    if (this.connectLock) {
+      reject('Locked')
+      return
+    }
+
+    this.connectLock = true
     if (!this.socket || this.socket.readyState !== WebSocket.CONNECTING || this.socket.readyState !== WebSocket.OPEN) {
       this.socket = new WebSocket(this.connectionString)
-      this.socket.onopen = this.sockedOpen.bind(this)
-      this.socket.onmessage = this.onMessage.bind(this)
-      this.socket.onclose = this.onClose.bind(this)
+      this.socket.onopen = this.sockedOpen
+      this.socket.onmessage = this.onMessage
+      this.socket.onclose = this.onClose
     }
 
     const internal = setInterval(() => {
       if (this.isOpen) {
         clearInterval(internal)
+        clearTimeout(this.timeout)
+        this.connectLock = false
         resolve()
       }
-    }, 10)
-    setTimeout(() => {
+    }, this.reconnectInterval)
+    this.timeout = setTimeout(() => {
       clearInterval(internal)
+      this.connectLock = false
+      this.reconnect()
       reject(`Failed to reconnect within ${this.timeoutInterval}`)
     }, this.timeoutInterval)
   })

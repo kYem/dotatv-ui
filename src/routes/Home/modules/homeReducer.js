@@ -37,7 +37,7 @@ const ACTION_HANDLERS = {
 
     return { ...state, live: liveMatchState }
   },
-  [MATCH_FINISHED] : (state) => ({ ...state, live: null, server_steam_id: '' })
+  [MATCH_FINISHED] : state => ({ ...state, live: null, server_steam_id: '' })
 }
 
 const initialState = {
