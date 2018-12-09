@@ -79,7 +79,7 @@ config.module.rules.push({
         ['babel-preset-env', {
           modules: false,
           targets: {
-            ie9: true,
+            ie9: false,
           },
           uglify: true,
         }],

@@ -1,5 +1,5 @@
 // @flow
-import fetch from 'isomorphic-fetch'
+import 'whatwg-fetch'
 import BaseMapper from './baseMapper'
 
 export const API_ERROR = 'API_ERROR'
@@ -49,7 +49,7 @@ const isMatchComplete = (json) => {
   return (buildings[17] && buildings[17].destroyed) || (buildings[35] && buildings[35].destroyed)
 }
 
-export function getLiveMatchDetails(serverSteamId) {
+export function getLiveMatchDetails(serverSteamId: string) {
   return (dispatch, getState) =>
     fetch(`${config.apiHostname}/live/stats?server_steam_id=${serverSteamId}`, DEFAULT_OPTIONS)
       .then((response) => {
