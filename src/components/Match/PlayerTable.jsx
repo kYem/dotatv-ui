@@ -2,7 +2,7 @@ import React from 'react'
 import './PlayerTable.scss'
 import PlayerRow from './PlayerRow'
 
-export default ({ players }) => (
+const PlayerTable = React.memo(({ players }) => (
 
   <table className='ui table player-match-table table-striped'>
     <thead className='thead-inverse'>
@@ -23,4 +23,6 @@ export default ({ players }) => (
     </tbody>
   </table>
 
-)
+))
+
+export default PlayerTable

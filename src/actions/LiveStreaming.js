@@ -66,7 +66,7 @@ export default class LiveStreaming {
       this.events[msg.event].callback(msg)
       delete this.events[msg.event]
     } else {
-      console.log(`message received, not found handler: ${e.data}`)
+      console.log(`message received, not found handler: ${msg.event}`)
     }
   }
 

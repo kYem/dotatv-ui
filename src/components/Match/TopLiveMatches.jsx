@@ -4,7 +4,7 @@ import { gameTime, getKnownPlayers } from '../../actions/matchProcessing'
 import NotablePlayer from './NotablePlayer'
 import './TopLiveMatches.scss'
 
-export default class TopLiveMatches extends React.Component {
+export default class TopLiveMatches extends React.PureComponent {
   static propTypes = {
     team_name_radiant: PropTypes.string,
     team_name_dire: PropTypes.string,

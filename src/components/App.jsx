@@ -8,6 +8,11 @@ import '../styles/main.scss'
 
 const store = createStore(window.__INITIAL_STATE__)
 
+if (process.env.NODE_ENV !== 'production') {
+  const {whyDidYouUpdate} = require('why-did-you-update');
+  whyDidYouUpdate(React, { include: [/^PlayerTable/]})
+}
+
 class App extends React.Component {
 
   static shouldComponentUpdate() {
