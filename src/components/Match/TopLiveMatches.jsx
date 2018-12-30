@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { gameTime, getKnownPlayers } from '../../actions/matchProcessing'
-import NotablePlayer from './NotablePlayer'
 import './TopLiveMatches.scss'
 
 export default class TopLiveMatches extends React.PureComponent {
@@ -39,6 +38,7 @@ export default class TopLiveMatches extends React.PureComponent {
 
   render() {
     const mmr = this.props.average_mmr ? ` - mmr ${this.props.average_mmr}` : ''
+    const knownPlayers = getKnownPlayers(this.props.players)
     return (
       <div className='main-container col-md-12'>
         <h5 className={'header'}>
@@ -53,13 +53,30 @@ export default class TopLiveMatches extends React.PureComponent {
             {this.props.dire_score} {this.props.team_name_dire}
           </a>
         </h5>
+
         <div className={'game-info'}>
           <span>Game time: {gameTime(this.props.game_time)}</span>{mmr}
           <div>Viewers: {this.props.spectators}</div>
         </div>
+
         <table className='ui table live-match'>
           <tbody>
-            {getKnownPlayers(this.props.players).map(player => (<NotablePlayer key={player.account_id} {...player} />))}
+            {knownPlayers.map(player => (
+              <tr key={player.account_id}>
+                <td>
+                  <img
+                    src={player.hero_image}
+                    alt={player.hero_name}
+                    className='rounded hero-image'
+                  />
+                  <a
+                    href={`https://www.dotabuff.com/players/${player.account_id}`}
+                    target='_blank'
+                    className={'ml-1'}
+                  >{player.name || player.personaname}</a>
+                </td>
+              </tr>
+              ))}
           </tbody>
         </table>
       </div>
