@@ -24,10 +24,7 @@ function makeRequest(url, options, dispatch, dispatchType) {
   fetch(url, options)
     .then((response) => {
       const type = response.status !== 200 ? API_ERROR : dispatchType
-      response.json()
-        .then((json) => {
-          dispatch({ type, payload: json })
-        })
+      return response.json().then(payload => dispatch({ type, payload }))
     })
     .catch(err => dispatch({ type: API_ERROR, payload: err }))
 }

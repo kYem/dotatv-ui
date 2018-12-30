@@ -33,7 +33,19 @@ class HomeView extends React.Component {
     clearInterval(this.refresh)
   }
 
-  render() {
+  getMatch() {
+    if (!this.props.liveMatchServerId) {
+      return <Progress />
+    }
+
+    return (<LiveMatch
+      wsGetLiveMatchDetails={this.props.subscribeLiveMatch}
+      serverId={this.props.liveMatchServerId}
+      {...this.props.liveMatch}
+    />)
+  }
+
+  getMatches() {
     let matches = <Progress />
     if (this.props.matches.length > 0) {
       matches = this.props.matches.map(match => (
@@ -44,23 +56,17 @@ class HomeView extends React.Component {
           {...match}
         />))
     }
+    return matches
+  }
 
-    let match = <Progress />
-    if (this.props.liveMatchServerId) {
-      match = (<LiveMatch
-        wsGetLiveMatchDetails={this.props.subscribeLiveMatch}
-        serverId={this.props.liveMatchServerId}
-        {...this.props.liveMatch}
-      />)
-    }
-
+  render() {
     return (
       <div className={'row'}>
         <div className={'col-md-4 col-lg-3'}>
-          {matches}
+          {this.getMatches()}
         </div>
         <div className={'col-md-8 col-lg-9'}>
-          {match}
+          {this.getMatch()}
         </div>
       </div>
     )
