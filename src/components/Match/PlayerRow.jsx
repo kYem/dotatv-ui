@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import LiveValue from './LiveValue'
+import './PlayerRow.scss'
 
 class PlayerRow extends React.Component {
   static propTypes = {
@@ -40,14 +41,14 @@ class PlayerRow extends React.Component {
     return (
       <tr>
         <td>
-          <img src={this.props.hero_image} alt={this.props.hero_name} className='rounded image' />
-        </td>
-        <td>
-          {this.props.team_tag}
-          <a
-            href={`https://www.dotabuff.com/players/${this.props.account_id}`}
-            target='_blank'
-          > {this.props.name}</a>
+          <img src={this.props.hero_image} alt={this.props.hero_name} className='rounded image hero-image' />
+          <span>
+            {this.props.team_tag}
+            <a
+              href={`https://www.dotabuff.com/players/${this.props.account_id}`}
+              target='_blank'
+            > {this.props.name}</a>
+          </span>
         </td>
         <td>{this.props.level}</td>
         <td>

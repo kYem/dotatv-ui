@@ -83,7 +83,7 @@ class LiveMatch extends React.Component {
         <PlayerTable players={radiant.players} />
         <h6>Dire</h6>
         <PlayerTable players={dire.players} />
-        <br/>
+        <br />
         <Minimap radiant={radiant.players} dire={dire.players} />
       </div>
     )

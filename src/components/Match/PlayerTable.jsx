@@ -5,9 +5,8 @@ import PlayerRow from './PlayerRow'
 const PlayerTable = React.memo(({ players }) => (
 
   <table className='ui table player-match-table table-striped'>
-    <thead className='thead-inverse'>
+    <thead className='thead-dark'>
       <tr>
-        <th>Hero</th>
         <th>Player</th>
         <th>Level</th>
         <th>K/D/A</th>
