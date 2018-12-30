@@ -37,10 +37,10 @@ export default class TopLiveMatches extends React.PureComponent {
 
 
   render() {
-    const mmr = this.props.average_mmr ? ` - mmr ${this.props.average_mmr}` : ''
+    const mmr = this.props.average_mmr ? `${this.props.average_mmr}` : ''
     const knownPlayers = getKnownPlayers(this.props.players)
     return (
-      <div className='main-container col-md-12'>
+      <div className='top-match col-12 shadow-sm p-2'>
         <h5 className={'header'}>
           <a
             role='button'
@@ -48,37 +48,47 @@ export default class TopLiveMatches extends React.PureComponent {
             onClick={() => this.props.subscribeLiveMatch(this.props.server_steam_id)}
             className={this.props.active}
           >
-            {this.props.team_name_radiant} {this.props.radiant_score}
+            <span className='score radiant'>
+              {this.props.team_name_radiant || 'Radiant'}
+              {this.props.radiant_score}
+            </span>
             <span>:</span>
-            {this.props.dire_score} {this.props.team_name_dire}
+            <span className='score dire'>
+              {this.props.dire_score}
+              {this.props.team_name_dire || 'Dire'}
+            </span>
           </a>
         </h5>
 
         <div className={'game-info'}>
-          <span>Game time: {gameTime(this.props.game_time)}</span>{mmr}
-          <div>Viewers: {this.props.spectators}</div>
+          <div className='game-info-row'>
+            <span className='material-icons md-18 mr-2'>show_chart</span>
+            <span>{mmr}</span>
+          </div>
+          <div className='game-info-row'>
+            <i className='material-icons md-18 mr-2'>remove_red_eye</i>
+            <span>
+              {this.props.spectators}
+            </span>
+          </div>
         </div>
 
-        <table className='ui table live-match'>
-          <tbody>
-            {knownPlayers.map(player => (
-              <tr key={player.account_id}>
-                <td>
-                  <img
-                    src={player.hero_image}
-                    alt={player.hero_name}
-                    className='rounded hero-image'
-                  />
-                  <a
-                    href={`https://www.dotabuff.com/players/${player.account_id}`}
-                    target='_blank'
-                    className={'ml-1'}
-                  >{player.name || player.personaname}</a>
-                </td>
-              </tr>
-              ))}
-          </tbody>
-        </table>
+        <div className='live-match'>
+          {knownPlayers.map(player => (
+            <div className='player mt-2 mb-2' key={player.account_id}>
+              <img
+                src={player.hero_image}
+                alt={player.hero_name}
+                className='rounded hero-image'
+              />
+              <a
+                href={`https://www.dotabuff.com/players/${player.account_id}`}
+                target='_blank'
+                className='ml-1 ellipsis'
+              >{player.name || player.personaname}</a>
+            </div>
+          ))}
+        </div>
       </div>
     )
   }

@@ -41,3 +41,20 @@ table {
     text-overflow: ellipsis;
   }
 }
+
+.game-info-row {
+  display: flex;
+  align-items: center;
+}
+
+.score {
+
+  &.radiant {
+    color: #28a745;
+  }
+
+  &.dire {
+    color: #dc3545;
+  }
+
+}

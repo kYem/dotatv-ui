@@ -58,7 +58,6 @@ class LiveMatch extends React.Component {
 
     const radiant = this.props.teams[0]
     const dire = this.props.teams[1]
-    const lastUpdated = this.props.updated ? new Date(this.props.updated) : '-'
     const graphGold = this.props.graph_data.graph_gold
     const lastAdvantageTick = graphGold[graphGold.length - 1]
     const teamAdvantage = <LiveValue shouldResetStyle={false} value={Math.abs(lastAdvantageTick)} />
@@ -72,10 +71,12 @@ class LiveMatch extends React.Component {
             {dire.score} {dire.team_name || 'Dire'}
             { lastAdvantageTick < 0 ? teamAdvantage : ''}
           </h4>
-          <div>
-            <span>Game time: {gameTime(this.props.match.game_time)}</span>
-            <span> {this.props.average_mmr ? <span> | mmr {this.props.average_mmr}</span> : ''} </span>
-            <span className='updated timestamp'>Last updated {lastUpdated.toLocaleString()}</span>
+
+          <div className='game-info-row justify-content-between align-baseline'>
+            <div className='game-info-row'>
+              <span className='material-icons md-18 mr-2'>timelapse</span>
+              <span>{gameTime(this.props.match.game_time)}</span>
+            </div>
           </div>
         </header>
         <hr />

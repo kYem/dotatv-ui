@@ -25,7 +25,7 @@ class App extends React.Component {
         <React.StrictMode>
           <div style={{ height: '100%' }}>
             <Router>
-              <div className='container'>
+              <div className='container main-container'>
                 <div className='navigation'>
                   <h1>Dota Tv</h1>
                   <NavLink to='/' activeClassName='page-layout__nav-item--active'>Home</NavLink>
