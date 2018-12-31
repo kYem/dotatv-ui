@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { gameTime, getKnownPlayers } from '../../actions/matchProcessing'
 import './TopLiveMatches.scss'
+import { getKnownPlayers } from '../../actions/matchProcessing'
+import MatchScore from './MatchScore'
 
 export default class TopLiveMatches extends React.PureComponent {
   static propTypes = {
@@ -35,9 +36,11 @@ export default class TopLiveMatches extends React.PureComponent {
     players: []
   };
 
+  changeLiveMatch = () => {
+    this.props.subscribeLiveMatch(this.props.server_steam_id)
+  }
 
   render() {
-    const mmr = this.props.average_mmr ? `${this.props.average_mmr}` : ''
     const knownPlayers = getKnownPlayers(this.props.players)
     return (
       <div className='top-match col-12 shadow-sm p-2'>
@@ -45,28 +48,20 @@ export default class TopLiveMatches extends React.PureComponent {
           <a
             role='button'
             tabIndex={0}
-            onClick={() => this.props.subscribeLiveMatch(this.props.server_steam_id)}
+            onClick={this.changeLiveMatch}
             className={this.props.active}
           >
-            <span className='score radiant'>
-              {this.props.team_name_radiant || 'Radiant'}
-              {this.props.radiant_score}
-            </span>
-            <span>:</span>
-            <span className='score dire'>
-              {this.props.dire_score}
-              {this.props.team_name_dire || 'Dire'}
-            </span>
+            {MatchScore(this.props)}
           </a>
         </h5>
 
-        <div className={'game-info'}>
+        <div className='game-info'>
           <div className='game-info-row'>
             <span className='material-icons md-18 mr-2'>show_chart</span>
-            <span>{mmr}</span>
+            <span>{this.props.average_mmr || ''}</span>
           </div>
           <div className='game-info-row'>
-            <i className='material-icons md-18 mr-2'>remove_red_eye</i>
+            <i className='material-icons text-danger md-18 mr-2'>remove_red_eye</i>
             <span>
               {this.props.spectators}
             </span>
