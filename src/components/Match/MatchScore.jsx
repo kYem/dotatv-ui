@@ -19,9 +19,9 @@ const MatchScore = props => (
         {<IconRadiant height={'24'} />}
         {props.radiant_score || 0}
       </div>
-      <span className='team-name ellipsis'>
+      <div className='team-name ellipsis'>
         {props.team_name_radiant}
-      </span>
+      </div>
     </div>
 
     <div className={'versus-container'}>
@@ -33,9 +33,9 @@ const MatchScore = props => (
         {props.dire_score || 0}
         {<IconDire height={'24'} />}
       </div>
-      <span className='team-name ellipsis'>
+      <div className='team-name ellipsis'>
         {props.team_name_dire}
-      </span>
+      </div>
     </div>
   </div>
 )
