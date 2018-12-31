@@ -1,7 +1,7 @@
 import React from 'react'
 
 const defaultProps = ({
-  fill: '#cd2b25',
+  fill: '#28a745',
   height: '16px',
 })
 

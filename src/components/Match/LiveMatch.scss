@@ -1,22 +1,19 @@
-.duck {
-  display: block;
-  width: 120px;
-  margin: 1.5rem auto;
-}
-
-.updated {
-  align-content: end;
-  &.timestamp {
-
-  }
-}
-
 .liveMatch {
-  .title {
-    text-align : center;
-  }
 
   .title {
+    svg.versus {
+      height: 72px;
+    }
+
+    .advantage-score {
+      flex-basis: 20%;
+    }
+
+    .match-score-container {
+      flex-basis: 80%;
+    }
+
+    text-align : center;
     .stats-count {
       margin: 0 15px;
       font-size : 16px;

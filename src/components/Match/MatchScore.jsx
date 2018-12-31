@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import './MatchScore.scss'
 import IconVersus from '../icons/IconVersus'
 import IconRadiant from '../icons/IconRadiant'
 import IconDire from '../icons/IconDire'
@@ -14,12 +15,12 @@ const propTypes = {
 const MatchScore = props => (
   <div className='match-header'>
     <div className='score radiant'>
-      <div>
-        {props.team_name_radiant || <IconDire height={'24'} />}
+      <div className='score-icon'>
+        {<IconRadiant height={'24'} />}
         {props.radiant_score || 0}
       </div>
       <span className='team-name ellipsis'>
-        {props.team_name_dire}
+        {props.team_name_radiant}
       </span>
     </div>
 
@@ -28,9 +29,9 @@ const MatchScore = props => (
     </div>
 
     <div className='score dire'>
-      <div>
+      <div className='score-icon'>
         {props.dire_score || 0}
-        {props.team_name_dire || <IconRadiant height={'24'} />}
+        {<IconDire height={'24'} />}
       </div>
       <span className='team-name ellipsis'>
         {props.team_name_dire}

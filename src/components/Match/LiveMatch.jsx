@@ -6,6 +6,7 @@ import { gameTime } from '../../actions/matchProcessing'
 import LiveValue from './LiveValue'
 import Progress from '../Progress'
 import Minimap from '../Minimap/Minimap'
+import MatchScore from './MatchScore'
 
 class LiveMatch extends React.Component {
 
@@ -56,27 +57,33 @@ class LiveMatch extends React.Component {
       return <Progress />
     }
 
-    const radiant = this.props.teams[0]
-    const dire = this.props.teams[1]
+    const [radiant, dire] = this.props.teams
     const graphGold = this.props.graph_data.graph_gold
     const lastAdvantageTick = graphGold[graphGold.length - 1]
     const teamAdvantage = <LiveValue shouldResetStyle={false} value={Math.abs(lastAdvantageTick)} />
     return (
       <div className='liveMatch'>
         <header>
-          <h4 className='title'>
-            { lastAdvantageTick > 0 ? teamAdvantage : ''}
-            {radiant.team_name || 'Radiant'} {radiant.score}
-            <span> : </span>
-            {dire.score} {dire.team_name || 'Dire'}
-            { lastAdvantageTick < 0 ? teamAdvantage : ''}
-          </h4>
-
-          <div className='game-info-row justify-content-between align-baseline'>
-            <div className='game-info-row'>
-              <span className='material-icons md-18 mr-2'>timelapse</span>
-              <span>{gameTime(this.props.match.game_time)}</span>
+          <div className='title d-flex justify-content-center align-items-center'>
+            <span className='advantage-score'>
+              { lastAdvantageTick > 0 ? teamAdvantage : ''}
+            </span>
+            <div className='match-score-container'>
+              {MatchScore({
+                team_name_radiant: radiant.team_name || 'Radiant',
+                radiant_score: radiant.score,
+                team_name_dire: dire.team_name || 'Dire',
+                dire_score: dire.score,
+              })}
             </div>
+            <span className='advantage-score'>
+              {lastAdvantageTick < 0 ? teamAdvantage : ''}
+            </span>
+          </div>
+
+          <div className='game-info-row justify-content-center'>
+            <span className='material-icons md-18 mr-2'>timelapse</span>
+            <span>{gameTime(this.props.match.game_time)}</span>
           </div>
         </header>
         <hr />
