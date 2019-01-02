@@ -5,95 +5,6 @@
   "main": "index.js",
   "scripts": {
     "clean": "rimraf dist",
-<<<<<<< HEAD
-    "compile": "better-npm-run compile",
-    "lint": "eslint bin build config server src tests",
-    "lint:fix": "npm run lint -- --fix",
-    "start": "better-npm-run start",
-    "dev": "better-npm-run dev",
-    "test": "better-npm-run test",
-    "test:dev": "npm run test -- --watch",
-    "deploy": "better-npm-run deploy",
-    "deploy:dev": "better-npm-run deploy:dev",
-    "deploy:prod": "better-npm-run deploy:prod",
-    "codecov": "cat coverage/*/lcov.info | codecov"
-  },
-  "betterScripts": {
-    "compile": {
-      "command": "node bin/compile",
-      "env": {
-        "DEBUG": "app:*"
-      }
-    },
-    "dev": {
-      "command": "nodemon bin/dev-server --ignore dist --ignore coverage --ignore tests --ignore src",
-      "env": {
-        "NODE_ENV": "development",
-        "DEBUG": "app:*"
-      }
-    },
-    "deploy": {
-      "command": "npm run lint && npm run test && npm run clean && npm run compile",
-      "env": {
-        "DEBUG": "app:*"
-      }
-    },
-    "deploy:dev": {
-      "command": "npm run deploy",
-      "env": {
-        "NODE_ENV": "development",
-        "DEBUG": "app:*"
-      }
-    },
-    "deploy:prod": {
-      "command": "npm run deploy",
-      "env": {
-        "NODE_ENV": "production",
-        "DEBUG": "app:*"
-      }
-    },
-    "deploy:dev": {
-      "command": "npm run deploy",
-      "env": {
-        "NODE_ENV": "development",
-        "DEBUG": "app:*"
-      }
-    },
-    "deploy:prod": {
-      "command": "npm run deploy",
-      "env": {
-        "NODE_ENV": "production",
-        "DEBUG": "app:*"
-      }
-    },
-    "deploy:dev": {
-      "command": "npm run deploy",
-      "env": {
-        "NODE_ENV": "development",
-        "DEBUG": "app:*"
-      }
-    },
-    "deploy:prod": {
-      "command": "npm run deploy",
-      "env": {
-        "NODE_ENV": "production",
-        "DEBUG": "app:*"
-      }
-    },
-    "start": {
-      "command": "node bin/dev-server",
-      "env": {
-        "DEBUG": "app:*"
-      }
-    },
-    "test": {
-      "command": "node ./node_modules/karma/bin/karma start config/karma.config",
-      "env": {
-        "NODE_ENV": "test",
-        "DEBUG": "app:*"
-      }
-    }
-=======
     "compile": "node build/scripts/compile",
     "build": "npm run clean && cross-env NODE_ENV=production npm run compile",
     "start": "cross-env NODE_ENV=development node build/scripts/start",
@@ -101,7 +12,6 @@
     "test:watch": "npm test -- --watch",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix"
->>>>>>> c58c0c3... refactor(build): upgrade to webpack 2
   },
   "repository": {
     "type": "git",
