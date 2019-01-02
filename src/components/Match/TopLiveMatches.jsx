@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import './TopLiveMatches.scss'
 import { getKnownPlayers } from '../../actions/matchProcessing'
 import MatchScore from './MatchScore'
+import IconTwitchGlitch from '../icons/IconTwitchGlitch'
 
 export default class TopLiveMatches extends React.PureComponent {
   static propTypes = {
@@ -70,17 +71,24 @@ export default class TopLiveMatches extends React.PureComponent {
 
         <div className='live-match'>
           {knownPlayers.map(player => (
-            <div className='player mt-2 mb-2' key={player.account_id}>
+            <div className='player d-flex mt-2 mb-2' key={player.account_id}>
               <img
                 src={player.hero_image}
                 alt={player.hero_name}
                 className='rounded hero-image'
               />
-              <a
-                href={`https://www.dotabuff.com/players/${player.account_id}`}
-                target='_blank'
-                className='ml-1 ellipsis'
-              >{player.name || player.personaname}</a>
+              <div className='d-flex flex-grow-1'>
+                <a
+                  href={`https://www.dotabuff.com/players/${player.account_id}`}
+                  target='_blank'
+                  className='ml-1 ellipsis flex-grow-1'
+                >
+                <span>
+                  {player.name || player.personaname}
+                </span>
+                </a>
+                <span>{player.stream.id ? <IconTwitchGlitch /> : ''}</span>
+              </div>
             </div>
           ))}
         </div>
