@@ -3,6 +3,7 @@ import 'typeface-roboto' // eslint-disable-line
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
 import HomeView from '../routes/Home/components/HomeView'
+import StreamView from '../routes/streams/components/StreamView'
 import createStore from '../store/createStore'
 import '../styles/main.scss'
 
@@ -33,9 +34,14 @@ class App extends React.Component {
                   </div>
                   <div className='collapse navbar-collapse' id='navbarTogglerDemo02'>
                     <ul className='navbar-nav mr-auto mt-2 mt-lg-0'>
-                      <li className='nav-item active'>
+                      <li className='nav-item'>
                         <NavLink to='/' className='nav-link' activeClassName='active'>
                           Home
+                        </NavLink>
+                      </li>
+                      <li className='nav-item'>
+                        <NavLink to='/streams' className='nav-link' activeClassName='active'>
+                          Streams
                         </NavLink>
                       </li>
                     </ul>
@@ -45,7 +51,8 @@ class App extends React.Component {
 
               <div className='container main-container'>
                 <div className='page-layout__viewport'>
-                  <Route path='/' component={HomeView} />
+                  <Route exact path='/' component={HomeView} />
+                  <Route path='/streams' component={StreamView} />
                 </div>
               </div>
 

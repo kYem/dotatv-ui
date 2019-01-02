@@ -7,6 +7,7 @@ export const LIVE_MATCH_SUBSCRIBE = 'LIVE_MATCH_SUBSCRIBE'
 export const LIVE_MATCH_DETAILS = 'LIVE_MATCH_DETAILS'
 export const LIVE_MATCHES = 'LIVE_MATCHES'
 export const MATCH_FINISHED = 'MATCH_FINISHED'
+export const STREAMS_LOADED = 'STREAMS_LOADED'
 
 const config = require('../../project.config')
 
@@ -58,6 +59,14 @@ export function getLiveMatchDetails(serverSteamId: string) {
             return dispatch({ type, payload: json })
           })
       })
+      .catch(err => dispatch({ type: API_ERROR, payload: err }))
+}
+
+export function getLiveStreams() {
+  return (dispatch: Function) =>
+    fetch(`${config.apiHostname}/streams`, DEFAULT_OPTIONS)
+      .then(response => response.json())
+      .then(payload => dispatch({ type: STREAMS_LOADED, payload }))
       .catch(err => dispatch({ type: API_ERROR, payload: err }))
 }
 
