@@ -35,14 +35,14 @@ class PlayerRow extends React.Component {
     level: 0,
     x: 0,
     y: 0
-  };
+  }
 
   render() {
     return (
-      <tr>
-        <td>
+      <tr className='player-row'>
+        <td className='player-name'>
           <img src={this.props.hero_image} alt={this.props.hero_name} className='rounded image hero-image' />
-          <span>
+          <span className='ml-1'>
             {this.props.team_tag}
             <a
               href={`https://www.dotabuff.com/players/${this.props.account_id}`}
