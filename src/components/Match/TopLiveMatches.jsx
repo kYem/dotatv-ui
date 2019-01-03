@@ -41,6 +41,24 @@ export default class TopLiveMatches extends React.PureComponent {
     this.props.subscribeLiveMatch(this.props.server_steam_id)
   }
 
+  renderStreamInfo(player) {
+
+    const { id, viewer_count } = player.stream
+
+    if (!id) {
+      return ''
+    }
+
+    return (
+      <div className='stream-info'>
+        <div className=''>
+          <IconTwitchGlitch />
+        </div>
+        <div className='ml-1'>{viewer_count}</div>
+      </div>
+    )
+  }
+
   render() {
     const knownPlayers = getKnownPlayers(this.props.players)
     return (
@@ -77,7 +95,7 @@ export default class TopLiveMatches extends React.PureComponent {
                 alt={player.hero_name}
                 className='rounded hero-image'
               />
-              <div className='d-flex flex-grow-1'>
+              <div className='d-flex flex-grow-1 align-items-center'>
                 <a
                   href={`https://www.dotabuff.com/players/${player.account_id}`}
                   target='_blank'
@@ -87,7 +105,7 @@ export default class TopLiveMatches extends React.PureComponent {
                   {player.name || player.personaname}
                 </span>
                 </a>
-                <span>{player.stream.id ? <IconTwitchGlitch /> : ''}</span>
+                <div>{this.renderStreamInfo(player)}</div>
               </div>
             </div>
           ))}
