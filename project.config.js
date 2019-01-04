@@ -1,7 +1,7 @@
 const NODE_ENV = process.env.NODE_ENV || 'development'
-const API_HOSTNAME = NODE_ENV === 'development' ? 'api.dotatv.com' : 'api.dotatv.com'
+const isProd = NODE_ENV === 'production'
 
-module.exports = {
+const config = {
   /** The environment to use when building the project */
   env: NODE_ENV,
   /** The full path to the project's root directory */
@@ -23,7 +23,7 @@ module.exports = {
   /** Whether to enable verbose logging */
   verbose: false,
   /** The list of modules to bundle separately from the core application code */
-  apiHostname: `http://${API_HOSTNAME}`,
+  apiHostname: 'http://127.0.0.1:8008',
   dotaImageCdn: 'http://cdn.dota2.com/apps/dota2/images',
   wsEndpoint: 'ws://127.0.0.1:8008/ws',
   vendors: [
@@ -35,3 +35,10 @@ module.exports = {
     'react-router',
   ],
 }
+
+if (isProd) {
+  config.wsEndpoint = 'ws://api.dota.kyem.media/ws'
+  config.apiHostname = 'http://api.dota.kyem.media'
+}
+
+module.exports = config
