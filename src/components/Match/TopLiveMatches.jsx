@@ -43,7 +43,7 @@ export default class TopLiveMatches extends React.PureComponent {
 
   renderStreamInfo(player) {
 
-    const { id, viewer_count } = player.stream
+    const { id, viewer_count, user_name } = player.stream
 
     if (!id) {
       return ''
@@ -54,7 +54,7 @@ export default class TopLiveMatches extends React.PureComponent {
         <div className=''>
           <IconTwitchGlitch />
         </div>
-        <div className='ml-1'>{viewer_count}</div>
+        <div className='ml-1' title={user_name}>{viewer_count}</div>
       </div>
     )
   }
