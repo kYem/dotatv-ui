@@ -7,6 +7,7 @@ import LiveValue from './LiveValue'
 import Progress from '../Progress'
 import Minimap from '../Minimap/Minimap'
 import MatchScore from './MatchScore'
+import Advantage from '../chart/Advantage'
 
 class LiveMatch extends React.Component {
 
@@ -93,6 +94,9 @@ class LiveMatch extends React.Component {
         <PlayerTable players={dire.players} />
         <br />
         <Minimap radiant={radiant.players} dire={dire.players} />
+
+        <Advantage data={this.props.graph_data.graph_gold.map(d => ({ name: 'a', value : d }))} />
+
       </div>
     )
   }
