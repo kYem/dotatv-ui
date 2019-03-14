@@ -201,12 +201,14 @@ if (!__TEST__) {
     bundles.unshift('vendor')
     config.entry.vendor = project.vendors
   }
-  config.plugins.push(new webpack.optimize.CommonsChunkPlugin({ names: bundles }))
 }
+
+config.mode = 'development'
 
 // Production Optimizations
 // ------------------------------------
 if (__PROD__) {
+  config.mode = 'production'
   config.plugins.push(
     new webpack.LoaderOptionsPlugin({
       minimize: true,
