@@ -4,6 +4,7 @@ import './TopLiveMatches.scss'
 import { getKnownPlayers } from '../../actions/matchProcessing'
 import MatchScore from './MatchScore'
 import IconTwitchGlitch from '../icons/IconTwitchGlitch'
+import RankBadge from '../player/RankBadge'
 
 export default class TopLiveMatches extends React.PureComponent {
   static propTypes = {
@@ -106,6 +107,11 @@ export default class TopLiveMatches extends React.PureComponent {
                 </span>
                 </a>
                 <div>{this.renderStreamInfo(player)}</div>
+                {player.seasonLeaderboardRank &&
+                <span className='rank'>
+                  {RankBadge(player.seasonLeaderboardRank)}
+                </span>
+                }
               </div>
             </div>
           ))}
