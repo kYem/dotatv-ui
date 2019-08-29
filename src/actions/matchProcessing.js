@@ -1,5 +1,3 @@
-// @flow
-
 const config = require('../../project.config')
 const proPlayers = require('../data/pro-players.json')
 const heroes = require('../data/heroes.json')

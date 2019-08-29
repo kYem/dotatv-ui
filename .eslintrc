@@ -1,9 +1,9 @@
 {
   "parser": "babel-eslint",
   "extends": [
+    "eslint:recommended",
     "standard",
     "standard-react",
-    "airbnb",
     "plugin:react/recommended",
     "plugin:flowtype/recommended"
   ],
@@ -12,7 +12,6 @@
     "react",
     "promise",
     "flowtype",
-    "compat"
   ],
   "env": {
     "browser" : true
@@ -32,7 +31,6 @@
     "semi": [2, "never"],
     "no-unexpected-multiline": 2,
     "no-underscore-dangle": "off",
-    "compat/compat": 2
   },
   "parserOptions": {
     "ecmaFeatures": {
