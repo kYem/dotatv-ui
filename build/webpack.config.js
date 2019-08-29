@@ -125,10 +125,12 @@ config.module.rules.push({
       {
         loader: 'sass-loader',
         options: {
-          sourceMap: project.sourcemaps,
-          includePaths: [
-            inProjectSrc('styles'),
-          ],
+          sassOptions: {
+            sourceMap: project.sourcemaps,
+            includePaths: [
+              inProjectSrc('styles'),
+            ],
+          },
         },
       }
     ],
