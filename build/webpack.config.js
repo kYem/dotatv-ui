@@ -3,6 +3,7 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const project = require('../project.config')
+const cssnano = require('cssnano')
 
 const inProject = path.resolve.bind(path, project.basePath)
 const inProjectSrc = (file) => inProject(project.srcDir, file)
@@ -96,6 +97,23 @@ const extractStyles = new ExtractTextPlugin({
   disable: __DEV__,
 })
 
+constCssNanoPlugin = cssnano({
+  preset: ['advanced', {
+    discardComments: {
+      removeAll: true,
+    },
+    autoprefixer: {
+      add: true,
+      remove: true,
+      browsers: ['last 2 versions'],
+    },
+    discardUnused: false,
+    mergeIdents: false,
+    reduceIdents: false,
+    safe: true,
+  }]
+})
+
 config.module.rules.push({
   test: /\.(sass|scss|css)$/,
   loader: extractStyles.extract({
@@ -105,21 +123,6 @@ config.module.rules.push({
         loader: 'css-loader',
         options: {
           sourceMap: project.sourcemaps,
-          minimize: {
-            autoprefixer: {
-              add: true,
-              remove: true,
-              browsers: ['last 2 versions'],
-            },
-            discardComments: {
-              removeAll : true,
-            },
-            discardUnused: false,
-            mergeIdents: false,
-            reduceIdents: false,
-            safe: true,
-            sourcemap: project.sourcemaps,
-          },
         },
       },
       {
@@ -216,6 +219,7 @@ if (__PROD__) {
       minimize: true,
       debug: false,
     }),
+    constCssNanoPlugin,
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: !!config.devtool,
       comments: false,
