@@ -1,5 +1,5 @@
 import React from 'react'
-import miniMap from './1024.png'
+import miniMap from './1024.jpg'
 import './Minimap.scss'
 import MinimapItem, { mapScale } from './MinimapItem'
 
