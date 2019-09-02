@@ -29,7 +29,7 @@ export function getKnownPlayers(players) {
   if (!players) {
     return []
   }
-  return players.filter(player => player.is_pro)
+  return players.filter(player => player.is_pro || (player.stream && player.stream.id))
 }
 
 export function gameTime(time: number) {

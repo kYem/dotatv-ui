@@ -103,7 +103,7 @@ export default class TopLiveMatches extends React.PureComponent {
                   className='ml-1 ellipsis flex-grow-1'
                 >
                 <span>
-                  {player.name || player.personaname}
+                  {player.name || player.personaname || (player.stream && player.stream.user_name)}
                 </span>
                 </a>
                 <div>{this.renderStreamInfo(player)}</div>
