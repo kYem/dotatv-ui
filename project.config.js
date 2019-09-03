@@ -37,8 +37,8 @@ const config = {
 }
 
 if (isProd) {
-  config.wsEndpoint = 'ws://api.dota.kyem.media/ws'
-  config.apiHostname = 'http://api.dota.kyem.media'
+  config.wsEndpoint = 'wss://api.dota.kyem.media/ws'
+  config.apiHostname = 'https://api.dota.kyem.media'
 }
 
 module.exports = config
