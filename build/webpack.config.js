@@ -3,7 +3,6 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const project = require('../project.config')
-const cssnano = require('cssnano')
 
 const inProject = path.resolve.bind(path, project.basePath)
 const inProjectSrc = (file) => inProject(project.srcDir, file)
@@ -95,23 +94,6 @@ const extractStyles = new ExtractTextPlugin({
   filename: 'styles/[name].[hash].css',
   allChunks: true,
   disable: __DEV__,
-})
-
-constCssNanoPlugin = cssnano({
-  preset: ['advanced', {
-    discardComments: {
-      removeAll: true,
-    },
-    autoprefixer: {
-      add: true,
-      remove: true,
-      browsers: ['last 2 versions'],
-    },
-    discardUnused: false,
-    mergeIdents: false,
-    reduceIdents: false,
-    safe: true,
-  }]
 })
 
 config.module.rules.push({
@@ -219,7 +201,6 @@ if (__PROD__) {
       minimize: true,
       debug: false,
     }),
-    constCssNanoPlugin,
   )
 }
 
